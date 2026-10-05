@@ -14,23 +14,46 @@
     button{font:inherit}.app{width:min(1120px,100%)}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 18px}.titleblock h1{font:clamp(1.15rem,2.8vw,1.8rem)/1.4 'Press Start 2P',monospace;color:#fff4bd;margin:0 0 10px;text-shadow:3px 3px 0 #315743}.titleblock p{font-size:1.1rem;margin:0;color:#d7e6b5}.hud{display:flex;align-items:stretch;gap:10px;flex-shrink:0}.counter,.progress{background:#fdf3cf;color:#28543d;border:4px solid #a6c980;box-shadow:5px 5px 0 #0c292b;padding:9px 15px;min-height:64px;display:flex;align-items:center;justify-content:center}.counter{gap:12px}.counter small,.progress small{display:block;font-weight:600;font-size:.82rem;line-height:1.1}.counter strong{font:1.8rem/1 'Press Start 2P',monospace;color:#cf4939}.progress{min-width:110px;flex-direction:column}.progress strong{font:1rem/1.3 'Press Start 2P',monospace;margin-top:5px}
     .frame{position:relative;border:8px solid #8c5537;box-shadow:0 0 0 5px #cf9b5a,0 14px 0 5px #0c292b,0 26px 40px #071e20;overflow:hidden;background:#78c9c5;aspect-ratio:16/9}.frame canvas{width:100%;height:100%;display:block;image-rendering:pixelated}.apples{position:absolute;inset:0}.apple{position:absolute;width:clamp(42px,5.5vw,62px);height:clamp(42px,5.5vw,62px);transform:translate(-50%,-50%);border:0;background:transparent;padding:0;cursor:pointer;filter:drop-shadow(2px 4px 0 #183b26);touch-action:manipulation}.apple:focus-visible{outline:4px solid #fff8ac;outline-offset:4px;border-radius:12px}.apple:hover{transform:translate(-50%,-54%) scale(1.13)}.apple svg{width:100%;height:100%;display:block;image-rendering:pixelated}.apple b{position:absolute;inset:23% 0 0;display:grid;place-items:center;font:clamp(.85rem,1.65vw,1.15rem)/1 'Press Start 2P',monospace;color:#fff8d5;text-shadow:2px 2px 0 #842f2b;pointer-events:none}.apple.shake{animation:shake .35s steps(4,end)}.apple.picked{pointer-events:none;animation:pop .23s steps(3,end) forwards}.apple.next{filter:drop-shadow(0 0 5px #fff9a8) drop-shadow(2px 4px 0 #183b26)}@keyframes shake{0%,100%{margin-left:0}25%{margin-left:-7px}50%{margin-left:7px}75%{margin-left:-5px}}@keyframes pop{to{transform:translate(-50%,-70%) scale(0);opacity:0}}
     .number-pop{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%) scale(.16);opacity:0;pointer-events:none;color:#fff8dc;font:clamp(4rem,14vw,10rem)/1 'Press Start 2P',monospace;text-shadow:7px 7px 0 #c9503b,-5px -5px 0 #eaa24e,0 12px 0 #713e34;z-index:5;will-change:transform,opacity}.number-pop.play{animation:number-show .7s cubic-bezier(.2,.7,.22,1) both}@keyframes number-show{0%{transform:translate(-50%,-50%) scale(.12);opacity:0}35%,58%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(.12);opacity:0}}
-    .message{min-height:28px;margin:24px 0 0;text-align:center;color:#eef4ce;font-size:1.1rem;font-weight:600}.message.error{color:#ffd19b}.complete{position:absolute;inset:0;background:#143d35d9;z-index:6;display:none;align-items:center;justify-content:center;text-align:center;padding:20px}.complete.show{display:flex}.complete-card{background:#fff4cb;border:6px solid #a5ca7e;box-shadow:8px 8px 0 #0b2828;padding:22px 25px 25px;color:#28533a;max-width:360px}.complete-card h2{font:1.25rem/1.6 'Press Start 2P',monospace;margin:0 0 14px;color:#c74c38}.complete-card p{font-size:1.2rem;margin:0 0 22px}.replay{border:0;background:#d4543e;color:#fff7dc;padding:14px 18px;font:'Press Start 2P',monospace;font-size:.82rem;box-shadow:4px 4px 0 #7c342d;cursor:pointer}.replay:hover{background:#e96748}.replay:focus-visible{outline:4px solid #2c8558;outline-offset:4px}
+    .message{min-height:28px;margin:24px 0 0;text-align:center;color:#eef4ce;font-size:1.1rem;font-weight:600}.message.error{color:#ffd19b}.complete{position:absolute;inset:0;background:#143d35d9;z-index:6;display:none;align-items:center;justify-content:center;text-align:center;padding:20px}.complete.show{display:flex}.complete-card{background:#fff4cb;border:6px solid #a5ca7e;box-shadow:8px 8px 0 #0b2828;padding:22px 25px 25px;color:#28533a;max-width:360px}.complete-card h2{font:1.25rem/1.6 'Press Start 2P',monospace;margin:0 0 14px;color:#c74c38}.complete-card p{font-size:1.2rem;margin:0 0 22px}.replay{border:0;background:#d4543e;color:#fff7dc;padding:14px 18px;font:.82rem/1.4 'Press Start 2P',monospace;box-shadow:4px 4px 0 #7c342d;cursor:pointer}.replay:hover{background:#e96748}.replay:focus-visible{outline:4px solid #2c8558;outline-offset:4px}
+    [hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+    .complete-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}.replay.alt{background:#2c8558;box-shadow:4px 4px 0 #18503a}.replay.alt:hover{background:#38a06a}
+    .cast{position:absolute;inset:0;pointer-events:none;z-index:3}.char{position:absolute;bottom:4%;width:clamp(66px,11vw,124px);transform:translateX(-50%);filter:drop-shadow(3px 4px 0 #183b26)}.char svg{width:100%;height:auto;display:block}.char.wolf{left:17%}.char.fox{left:83%}.char.enter{animation:enter .6s steps(6,end) both}.char.fox.enter{animation-name:enter-right}.char.hop{animation:hop .4s steps(4,end)}.char.laugh{animation:laugh .5s steps(4,end)}
+    @keyframes enter{from{transform:translateX(-260%)}to{transform:translateX(-50%)}}@keyframes enter-right{from{transform:translateX(160%)}to{transform:translateX(-50%)}}@keyframes hop{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-22%)}}@keyframes laugh{0%,50%,100%{transform:translate(-50%,0)}25%,75%{transform:translate(-50%,-10%) rotate(-4deg)}}
+    .dialog{position:absolute;top:4%;left:4%;right:4%;z-index:7;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:#10302d;border:4px solid #fff4cb;box-shadow:0 0 0 4px #0c292b,inset 0 0 0 4px #2d6b52,8px 10px 0 4px #0c292b;padding:16px 18px 18px;cursor:pointer;color:#fff9db}
+    .portrait{width:clamp(56px,8vw,86px);aspect-ratio:1;background:#78c9c5;border:4px solid #cf9b5a;box-shadow:inset 0 -10px 0 #4a9a58;display:grid;place-items:end center;overflow:hidden;padding:4px 4px 0}.portrait svg{width:100%;height:auto;display:block}
+    .dlg-body{min-width:0}.speaker{display:inline-block;font:.72rem/1 'Press Start 2P',monospace;background:#d4543e;color:#fff7dc;padding:7px 9px;box-shadow:3px 3px 0 #7c342d;margin-bottom:10px}.speaker.fox{background:#ec7a33;box-shadow:3px 3px 0 #9a4519}.speaker.wolf{background:#2c8558;box-shadow:3px 3px 0 #18503a}
+    .dlg-text{margin:0;font-size:clamp(1rem,1.9vw,1.3rem);line-height:1.45;font-weight:500;min-height:2.9em;max-width:60ch}
+    .dlg-next{position:absolute;right:12px;bottom:8px;border:0;background:transparent;color:#fff4bd;font:.8rem/1 'Press Start 2P',monospace;padding:6px;cursor:pointer;animation:blink 1s steps(2,start) infinite}.dlg-next:focus-visible,.dlg-skip:focus-visible,.wolf-btn:focus-visible{outline:4px solid #fff8ac;outline-offset:3px}
+    .dlg-skip{position:absolute;right:10px;top:10px;border:0;background:#0c292b;color:#d7e6b5;font:.55rem/1 'Press Start 2P',monospace;padding:7px 8px;cursor:pointer}.dlg-skip:hover{color:#fff4bd}
+    @keyframes blink{to{visibility:hidden}}
+    .choose{position:absolute;inset:0;z-index:8;background:#143d35d9;display:flex;align-items:center;justify-content:center;padding:16px}.choose-card{background:#fff4cb;border:6px solid #a5ca7e;box-shadow:8px 8px 0 #0b2828;padding:18px 20px 22px;color:#28533a;text-align:center;width:min(640px,100%)}.choose-card h2{font:clamp(.8rem,1.6vw,1.05rem)/1.6 'Press Start 2P',monospace;margin:0 0 14px;color:#c74c38}
+    .wolves{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.wolf-btn{border:4px solid #a6c980;background:#fdf9e6;box-shadow:4px 4px 0 #0c292b;padding:10px 6px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:#28543d;min-width:0}.wolf-btn:hover{background:#fff;transform:translateY(-3px)}.wolf-btn .pic{width:min(100%,104px)}.wolf-btn svg{width:100%;height:auto;display:block}.wolf-btn strong{font:.85rem/1 'Press Start 2P',monospace;color:#c74c38}.wolf-btn small{font-size:.95rem;font-weight:600}
+    @media(max-width:720px){.dialog{top:3%;left:3%;right:3%;gap:10px;padding:12px 12px 16px}.speaker{font-size:.6rem}.char{width:clamp(56px,17vw,90px)}.choose-card{padding:14px 10px 16px}.wolves{gap:8px}.wolf-btn{padding:8px 4px 10px}.wolf-btn strong{font-size:.68rem}.wolf-btn small{font-size:.8rem}}
+    @media(prefers-reduced-motion:reduce){.char,.dlg-next{animation:none!important}}
     @media(max-width:720px){body{padding:16px;align-items:flex-start}.top{align-items:flex-start;flex-direction:column}.titleblock h1{font-size:1.13rem}.titleblock p{font-size:1rem}.hud{width:100%}.counter,.progress{min-height:54px}.frame{aspect-ratio:4/5}.apple{width:clamp(37px,10vw,53px);height:clamp(37px,10vw,53px)}.apple b{font-size:.8rem}.number-pop{font-size:5rem}.message{margin-top:22px;font-size:1rem}}@media(prefers-reduced-motion:reduce){.apple,.number-pop{animation-duration:.01ms!important;transition:none!important}}
   </style>
 </head>
 <body>
 <main class="app">
   <header class="top">
-    <div class="titleblock"><h1>Bosque de números</h1><p>Tocá las manzanas en orden, del 1 al 10.</p></div>
+    <div class="titleblock"><h1>Bosque de números</h1><p id="subtitle">Tocá las manzanas en orden, del 1 al 10.</p></div>
     <div class="hud"><div class="counter" aria-live="polite"><div><small>Buscá el</small><strong id="next">1</strong></div></div><div class="progress"><small>Encontradas</small><strong id="progress">0 / 10</strong></div></div>
   </header>
   <section class="frame" aria-label="Bosque de manzanos con números del 1 al 10">
     <canvas id="forest" width="480" height="270" aria-hidden="true"></canvas>
-    <div class="apples" id="apples"></div>
+    <div class="cast" aria-hidden="true"><div class="char wolf" id="wolfChar" hidden></div><div class="char fox" id="foxChar" hidden></div></div>
+    <div class="apples" id="apples" hidden></div>
     <div class="number-pop" id="numberPop" aria-hidden="true"></div>
-    <div class="complete" id="complete"><div class="complete-card"><h2>¡Muy bien!</h2><p>Encontraste todas las manzanas en orden.</p><button class="replay" id="replay">Jugar otra vez</button></div></div>
+    <div class="dialog" id="dialog" role="dialog" aria-label="Historia">
+      <div class="portrait" id="portrait" aria-hidden="true"></div>
+      <div class="dlg-body"><span class="speaker" id="speaker">Narrador</span><p class="dlg-text" id="dlgText" aria-hidden="true"></p><p class="sr-only" id="dlgFull" aria-live="polite"></p></div>
+      <button class="dlg-next" id="dlgNext" aria-label="Seguir">▼</button>
+      <button class="dlg-skip" id="dlgSkip">Saltar</button>
+    </div>
+    <div class="choose" id="choose" hidden><div class="choose-card"><h2>¿Quién ayuda al bosque?</h2><div class="wolves" id="wolves"></div></div></div>
+    <div class="complete" id="complete"><div class="complete-card"><h2>¡Muy bien!</h2><p id="completeText">Encontraste todas las manzanas en orden.</p><div class="complete-actions"><button class="replay" id="replay">Jugar otra vez</button><button class="replay alt" id="rechoose">Elegir otra loba</button></div></div></div>
   </section>
-  <p class="message" id="message" aria-live="polite">Empezá buscando la manzana 1.</p>
+  <p class="message" id="message" aria-live="polite">Tocá el cuadro de diálogo para seguir la historia.</p>
 </main>
 <script>
 (()=>{
@@ -46,9 +69,119 @@ const appleSvg='<svg viewBox="0 0 48 48" aria-hidden="true" shape-rendering="cri
 const applesEl=document.getElementById('apples'),nextEl=document.getElementById('next'),progressEl=document.getElementById('progress'),message=document.getElementById('message'),popEl=document.getElementById('numberPop'),completeEl=document.getElementById('complete');let expected=1,locked=false,timer;
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
 function showNumber(n){popEl.textContent=n;popEl.classList.remove('play');void popEl.offsetWidth;popEl.classList.add('play')}
-function start(){expected=1;locked=false;clearTimeout(timer);popEl.classList.remove('play');completeEl.classList.remove('show');nextEl.textContent='1';progressEl.textContent='0 / 10';message.textContent='Empezá buscando la manzana 1.';message.classList.remove('error');applesEl.replaceChildren();const nums=shuffle([1,2,3,4,5,6,7,8,9,10]);slots.forEach((slot,i)=>{const n=nums[i],btn=document.createElement('button');btn.className='apple';btn.style.left=slot.x+'%';btn.style.top=slot.y+'%';btn.setAttribute('aria-label','Manzana número '+n);btn.innerHTML=appleSvg+'<b>'+n+'</b>';btn.addEventListener('click',()=>pick(btn,n));applesEl.append(btn)})}
-function pick(btn,n){if(locked)return;if(n!==expected){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');message.textContent='Buscá el número '+expected+'. ¡Vos podés!';message.classList.add('error');return}locked=true;btn.classList.add('picked');showNumber(n);message.classList.remove('error');progressEl.textContent=n+' / 10';message.textContent=n===10?'¡Encontraste todas!':'¡Bien! Ahora buscá el '+(n+1)+'.';expected++;nextEl.textContent=expected<=10?expected:'✓';timer=setTimeout(()=>{locked=false;if(expected>10){completeEl.classList.add('show');document.getElementById('replay').focus()}},700)}
-document.getElementById('replay').addEventListener('click',start);start();
+// Sprites: grillas de píxeles; M() espeja la mitad izquierda para armar caras simétricas.
+const M=h=>h.map(r=>r+[...r].reverse().join(''));
+function overlay(base,layer,dx,dy){const out=base.map(r=>[...r]);layer.forEach((r,y)=>[...r].forEach((c,x)=>{if(c!=='.'&&out[y+dy]&&x+dx<out[y+dy].length)out[y+dy][x+dx]=c}));return out.map(r=>r.join(''))}
+function pad(rows,left,w){return rows.map(r=>('.'.repeat(left)+r).padEnd(w,'.'))}
+const FOX_BODY=M([
+"...k......",
+"..krk.....",
+"..krrk....",
+"..krrok...",
+".krroookkk",
+".koooooooo",
+".klooooooo",
+".kooookkoo",
+".kooookeoo",
+".kwwoooooo",
+".kwwwwoook",
+"..kwwwwwkw",
+"...kkwwwww",
+"....kowwww",
+"...kooowww",
+"...kooowww",
+"...kooowww",
+"...kOoowww",
+"...kOooggw",
+"...kOOoggg",
+"...kbbbkbb",
+"...kbbbkbb",
+"....kkkkkk"]);
+const FOX_TAIL=[
+"..kk.......",
+".kwwk......",
+"kwwwwk.....",
+"kwwwwwk....",
+"kgwwwok....",
+"kooooook...",
+".kooooook..",
+".kOoooooo..",
+"..kOoooooo.",
+"..kOOooooo.",
+"...kOOOooo.",
+"....kkOOoo.",
+"......kkkk."];
+const FOX=overlay(pad(FOX_BODY,8,28),FOX_TAIL,0,8);
+const WOLF_BODY=M([
+"..kk.......",
+".kik.......",
+".kiik......",
+".kiiik.....",
+"kfiiifkkkkk",
+"kffffffffff",
+"kffffffffff",
+"kffffffffww",
+"kfffkkffwww",
+"kfffkeffwww",
+"kfppffwwwwk",
+"kffffwwwwkw",
+".kfffwwwwww",
+"..kkfwwwwww",
+"...kffffwww",
+"...kfffffww",
+"..kffffwwww",
+"..kfffffwww",
+"..kfFfffwww",
+"..kfFfffkww",
+"..kwwkfkwww",
+"...kkkkkkkk"]);
+const WOLF_TAIL=[
+"....kk.",
+"...kwwk",
+"...kwwk",
+"..kfffk",
+".kffffk",
+"kfFffk.",
+"kfFfk..",
+"kFFk...",
+".kk...."];
+const WOLF=overlay(pad(WOLF_BODY,0,28),WOLF_TAIL,19,10);
+const PAL={k:'#22161b',r:'#9a2f34',o:'#ec7a33',O:'#b9521f',l:'#ffa461',w:'#fff4e2',g:'#d8cdbb',e:'#fff4e2',b:'#4a2b20',p:'#f2948a'};
+const WOLVES={
+ gaby:{name:'Gaby',color:'loba gris',pal:{f:'#7b8597',F:'#59627a',i:'#e6a989'}},
+ mary:{name:'Mary',color:'loba negra',pal:{f:'#3a3646',F:'#26222f',i:'#c47a7e'}},
+ ely:{name:'Ely',color:'loba marrón',pal:{f:'#9a6338',F:'#714526',i:'#f0b07c'}}};
+function spriteSVG(rows,pal){const h=rows.length,w=Math.max(...rows.map(r=>r.length));let d={};rows.forEach((r,y)=>{let x=0;while(x<r.length){const c=r[x];let n=1;while(r[x+n]===c)n++;if(c!=='.'&&pal[c])(d[c]=d[c]||[]).push(`M${x} ${y}h${n}v1h-${n}z`);x+=n}});return `<svg viewBox="0 0 ${w} ${h}" shape-rendering="crispEdges" aria-hidden="true">`+Object.entries(d).map(([c,p])=>`<path fill="${pal[c]}" d="${p.join('')}"/>`).join('')+'</svg>'}
+const crop=(rows,y0,y1,x0,x1)=>rows.slice(y0,y1).map(r=>r.slice(x0,x1));
+const wolfPal=k=>({...PAL,...WOLVES[k].pal});
+const foxSvg=spriteSVG(FOX,PAL),foxFace=spriteSVG(crop(FOX,0,14,8,28),PAL);
+const subtitle=document.getElementById('subtitle'),dialog=document.getElementById('dialog'),portrait=document.getElementById('portrait'),speaker=document.getElementById('speaker'),dlgText=document.getElementById('dlgText'),dlgFull=document.getElementById('dlgFull'),dlgNext=document.getElementById('dlgNext'),chooseEl=document.getElementById('choose'),wolvesEl=document.getElementById('wolves'),foxChar=document.getElementById('foxChar'),wolfChar=document.getElementById('wolfChar'),completeText=document.getElementById('completeText');
+const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let phase='story',wolf=null,queue=[],qi=0,onDone=null,typing=null,shown='';
+function animate(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
+function enter(el,html){if(!el.hidden&&el.dataset.who===html.slice(0,40))return;el.innerHTML=html;el.dataset.who=html.slice(0,40);el.hidden=false;animate(el,'enter')}
+function who(line){if(line.who==='fox')return{name:'Rufo',cls:'fox',face:foxFace};if(line.who==='wolf')return{name:WOLVES[wolf].name,cls:'wolf',face:spriteSVG(crop(WOLF,0,14,0,22),wolfPal(wolf))};return{name:'Narrador',cls:'',face:appleSvg}}
+function story(lines,done){phase='story';queue=lines;qi=0;onDone=done;applesEl.hidden=true;dialog.hidden=false;message.classList.remove('error');message.textContent='Tocá el cuadro de diálogo para seguir la historia.';showLine();dlgNext.focus({preventScroll:true})}
+function showLine(){const line=queue[qi],w=who(line);if(line.fox||line.who==='fox')enter(foxChar,foxSvg);speaker.textContent=w.name;speaker.className='speaker '+w.cls;portrait.innerHTML=w.face;dlgFull.textContent=w.name+': '+line.text;clearInterval(typing);shown=line.text;if(reduced){dlgText.textContent=shown;typing=null;return}let i=0;dlgText.textContent='';typing=setInterval(()=>{i+=1;dlgText.textContent=shown.slice(0,i);if(i>=shown.length){clearInterval(typing);typing=null}},26);if(line.who==='fox')animate(foxChar,'laugh');if(line.who==='wolf')animate(wolfChar,'hop')}
+function advance(){if(phase!=='story')return;if(typing){clearInterval(typing);typing=null;dlgText.textContent=shown;return}qi++;if(qi<queue.length)showLine();else endStory()}
+function endStory(){clearInterval(typing);typing=null;dialog.hidden=true;const d=onDone;onDone=null;d&&d()}
+dialog.addEventListener('click',e=>{if(e.target.closest('#dlgSkip'))return;advance()});
+document.getElementById('dlgSkip').addEventListener('click',()=>{if(phase==='story')endStory()});
+const INTRO=[
+ {who:'narr',text:'En el Bosque de números, los manzanos dan manzanas con números del 1 al 10. Cada mañana, los animales las juntan en orden.'},
+ {who:'narr',text:'Pero esta mañana, entre los arbustos, se escuchó una risita…',fox:true},
+ {who:'fox',text:'¡Je, je! Soy Rufo. Anoche desordené todas las manzanas del bosque. ¡Nadie va a poder juntarlas en orden!'},
+ {who:'narr',text:'Tres lobas escucharon el alboroto y vinieron corriendo. ¿Quién va a ayudar al bosque?'}];
+const READY={gaby:'¡Yo me encargo, Rufo! Las voy a juntar del 1 al 10, una por una.',mary:'Tranquilos, tengo buen olfato. ¡Empiezo por la manzana 1!',ely:'¡A contar se ha dicho! Uno, dos, tres… ¡vamos!'};
+function openChoose(){phase='choose';dialog.hidden=true;applesEl.hidden=true;completeEl.classList.remove('show');enter(foxChar,foxSvg);chooseEl.hidden=false;message.classList.remove('error');message.textContent='Elegí una loba para ayudar al bosque.';wolvesEl.querySelector('.wolf-btn')?.focus({preventScroll:true})}
+Object.entries(WOLVES).forEach(([k,w])=>{const b=document.createElement('button');b.className='wolf-btn';b.id='wolf-'+k;b.innerHTML='<span class="pic">'+spriteSVG(WOLF,wolfPal(k))+'</span><strong>'+w.name+'</strong><small>'+w.color[0].toUpperCase()+w.color.slice(1)+'</small>';b.addEventListener('click',()=>choose(k));wolvesEl.append(b)});
+function choose(k){wolf=k;chooseEl.hidden=true;wolfChar.dataset.who='';enter(wolfChar,spriteSVG(WOLF,wolfPal(k)));subtitle.textContent='Ayudá a '+WOLVES[k].name+' a juntar las manzanas del 1 al 10.';story([{who:'wolf',text:READY[k]},{who:'fox',text:'¡Ja! Eso quiero verlo. Las manzanas están todas mezcladas.'}],start)}
+function start(){phase='play';enter(foxChar,foxSvg);expected=1;locked=false;clearTimeout(timer);dialog.hidden=true;applesEl.hidden=false;popEl.classList.remove('play');completeEl.classList.remove('show');nextEl.textContent='1';progressEl.textContent='0 / 10';message.textContent='Empezá buscando la manzana 1.';message.classList.remove('error');applesEl.replaceChildren();const nums=shuffle([1,2,3,4,5,6,7,8,9,10]);slots.forEach((slot,i)=>{const n=nums[i],btn=document.createElement('button');btn.className='apple';btn.style.left=slot.x+'%';btn.style.top=slot.y+'%';btn.setAttribute('aria-label','Manzana número '+n);btn.innerHTML=appleSvg+'<b>'+n+'</b>';btn.addEventListener('click',()=>pick(btn,n));applesEl.append(btn)})}
+function pick(btn,n){if(locked||phase!=='play')return;if(n!==expected){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');animate(foxChar,'laugh');message.textContent='¡Je, je! Ese no es. Buscá el número '+expected+'. ¡Vos podés!';message.classList.add('error');return}locked=true;btn.classList.add('picked');showNumber(n);animate(wolfChar,'hop');message.classList.remove('error');progressEl.textContent=n+' / 10';message.textContent=n===10?'¡Encontraste todas!':'¡Bien! Ahora buscá el '+(n+1)+'.';expected++;nextEl.textContent=expected<=10?expected:'✓';timer=setTimeout(()=>{locked=false;if(expected>10)finish()},700)}
+function finish(){story([{who:'fox',text:'¡Uy! Juntaste todas las manzanas en orden… Perdón, bosque. No lo voy a hacer más.'},{who:'wolf',text:'¡Gracias por ayudar! Ahora todos podemos contar del 1 al 10.'}],()=>{phase='done';completeText.textContent=WOLVES[wolf].name+' y vos ordenaron todas las manzanas del bosque.';completeEl.classList.add('show');document.getElementById('replay').focus()})}
+document.getElementById('replay').addEventListener('click',()=>{completeEl.classList.remove('show');story([{who:'fox',text:'¡Je, je! Las volví a mezclar. ¿Podrás ordenarlas otra vez?'}],start)});
+document.getElementById('rechoose').addEventListener('click',openChoose);
+story(INTRO,openChoose);
 const modelContext=document.modelContext;
 if(modelContext?.registerTool){
   try{
@@ -59,6 +192,7 @@ if(modelContext?.registerTool){
       execute(input){
         const n=input?.number;
         if(!Number.isInteger(n)||n<1||n>10)throw new Error('El número debe estar entre 1 y 10.');
+        if(phase!=='play')throw new Error('Primero terminá la historia y elegí una loba.');
         if(locked||expected>10)throw new Error('Esperá a que termine la animación o reiniciá la partida.');
         const button=[...applesEl.querySelectorAll('.apple')].find(el=>el.getAttribute('aria-label')==='Manzana número '+n);
         if(!button||button.classList.contains('picked'))throw new Error('Esa manzana ya fue elegida.');
