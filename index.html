@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173c38">
-  <meta name="description" content="Un juego para aprender el orden de los números entre manzanos de un bosque pixel art.">
+  <meta name="description" content="Un juego pixel art para aprender el orden de los números y los nombres de los animales del bosque.">
   <title>Bosque de números</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%232c8f52' d='M17 5h8v4h-8z'/%3E%3Cpath fill='%23733e2b' d='M15 3h3v8h-3z'/%3E%3Cpath fill='%23db4b39' d='M8 9h16v3h4v12h-4v4H8v-4H4V12h4z'/%3E%3Cpath fill='%23ff9b67' d='M8 12h4v4H8z'/%3E%3C/svg%3E">
   <style>
@@ -28,7 +28,11 @@
     @keyframes blink{to{visibility:hidden}}
     .choose{position:absolute;inset:0;z-index:8;background:#143d35d9;display:flex;align-items:center;justify-content:center;padding:16px}.choose-card{background:#fff4cb;border:6px solid #a5ca7e;box-shadow:8px 8px 0 #0b2828;padding:18px 20px 22px;color:#28533a;text-align:center;width:min(640px,100%)}.choose-card h2{font:clamp(.8rem,1.6vw,1.05rem)/1.6 'Press Start 2P',monospace;margin:0 0 14px;color:#c74c38}
     .wolves{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.wolf-btn{border:4px solid #a6c980;background:#fdf9e6;box-shadow:4px 4px 0 #0c292b;padding:10px 6px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:#28543d;min-width:0}.wolf-btn:hover{background:#fff;transform:translateY(-3px)}.wolf-btn .pic{width:min(100%,104px)}.wolf-btn svg{width:100%;height:auto;display:block}.wolf-btn strong{font:.85rem/1 'Press Start 2P',monospace;color:#c74c38}.wolf-btn small{font-size:.95rem;font-weight:600}
-    @media(max-width:720px){.dialog{top:3%;left:3%;right:3%;gap:10px;padding:12px 12px 16px}.speaker{font-size:.6rem}.char{width:clamp(56px,17vw,90px)}.choose-card{padding:14px 10px 16px}.wolves{gap:8px}.wolf-btn{padding:8px 4px 10px}.wolf-btn strong{font-size:.68rem}.wolf-btn small{font-size:.8rem}}
+    @media(max-width:720px){.namer{top:3%;padding:12px 10px 14px;gap:10px;width:94%}.name-row input{font-size:.85rem;flex-basis:100%}.name-row .replay{padding:12px 12px;font-size:.7rem}.char.friend{width:clamp(96px,30vw,150px)}.dialog{top:3%;left:3%;right:3%;gap:10px;padding:12px 12px 16px}.speaker{font-size:.6rem}.char{width:clamp(56px,17vw,90px)}.choose-card{padding:14px 10px 16px}.wolves{gap:8px}.wolf-btn{padding:8px 4px 10px}.wolf-btn strong{font-size:.68rem}.wolf-btn small{font-size:.8rem}}
+    .char.friend{left:50%;bottom:5%;width:clamp(104px,18vw,200px);transform-origin:50% 100%}.char.friend.enter{animation:friend-in .45s steps(5,end) both}@keyframes friend-in{from{transform:translateX(-50%) scale(0)}to{transform:translateX(-50%) scale(1)}}
+    .namer{position:absolute;top:4%;left:50%;transform:translateX(-50%);width:min(560px,92%);z-index:7;background:#10302d;border:4px solid #fff4cb;box-shadow:0 0 0 4px #0c292b,inset 0 0 0 4px #2d6b52,8px 10px 0 4px #0c292b;padding:14px 18px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;margin:0}
+    .namer label{margin:0}.slots{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.slot{width:clamp(28px,4.4vw,42px);aspect-ratio:1;display:grid;place-items:center;background:#fdf3cf;border:3px solid #a6c980;box-shadow:3px 3px 0 #0c292b;color:#c74c38;font:clamp(.8rem,1.6vw,1.1rem)/1 'Press Start 2P',monospace}.slot.hint{color:#8fae7a}.slot.ok{background:#d9f2b4;color:#28543d}
+    .name-row{display:flex;gap:10px;width:100%;flex-wrap:wrap;justify-content:center}.name-row input{flex:1 1 160px;min-width:0;font:1.05rem/1 'Press Start 2P',monospace;text-transform:uppercase;letter-spacing:.08em;padding:12px;background:#fff9e8;color:#28533a;border:4px solid #a6c980;box-shadow:inset 3px 3px 0 #e2d6a8;border-radius:0}.name-row input:focus-visible{outline:4px solid #fff8ac;outline-offset:2px}.name-row .replay{flex:0 0 auto}.namer.shake{animation:shake .35s steps(4,end)}
     @media(prefers-reduced-motion:reduce){.char,.dlg-next{animation:none!important}}
     @media(max-width:720px){body{padding:16px;align-items:flex-start}.top{align-items:flex-start;flex-direction:column}.titleblock h1{font-size:1.13rem}.titleblock p{font-size:1rem}.hud{width:100%}.counter,.progress{min-height:54px}.frame{aspect-ratio:4/5}.apple{width:clamp(37px,10vw,53px);height:clamp(37px,10vw,53px)}.apple b{font-size:.8rem}.number-pop{font-size:5rem}.message{margin-top:22px;font-size:1rem}}@media(prefers-reduced-motion:reduce){.apple,.number-pop{animation-duration:.01ms!important;transition:none!important}}
   </style>
@@ -37,11 +41,11 @@
 <main class="app">
   <header class="top">
     <div class="titleblock"><h1>Bosque de números</h1><p id="subtitle">Tocá las manzanas en orden, del 1 al 10.</p></div>
-    <div class="hud"><div class="counter" aria-live="polite"><div><small>Buscá el</small><strong id="next">1</strong></div></div><div class="progress"><small>Encontradas</small><strong id="progress">0 / 10</strong></div></div>
+    <div class="hud"><div class="counter" aria-live="polite"><div><small id="counterLabel">Buscá el</small><strong id="next">1</strong></div></div><div class="progress"><small id="progressLabel">Encontradas</small><strong id="progress">0 / 10</strong></div></div>
   </header>
   <section class="frame" aria-label="Bosque de manzanos con números del 1 al 10">
     <canvas id="forest" width="480" height="270" aria-hidden="true"></canvas>
-    <div class="cast" aria-hidden="true"><div class="char wolf" id="wolfChar" hidden></div><div class="char fox" id="foxChar" hidden></div></div>
+    <div class="cast" aria-hidden="true"><div class="char wolf" id="wolfChar" hidden></div><div class="char fox" id="foxChar" hidden></div><div class="char friend" id="friendChar" hidden></div></div>
     <div class="apples" id="apples" hidden></div>
     <div class="number-pop" id="numberPop" aria-hidden="true"></div>
     <div class="dialog" id="dialog" role="dialog" aria-label="Historia">
@@ -50,8 +54,13 @@
       <button class="dlg-next" id="dlgNext" aria-label="Seguir">▼</button>
       <button class="dlg-skip" id="dlgSkip">Saltar</button>
     </div>
+    <form class="namer" id="namer" hidden autocomplete="off">
+      <label class="speaker wolf" for="nameInput">¿Cómo se llama?</label>
+      <div class="slots" id="slotsEl" aria-hidden="true"></div>
+      <div class="name-row"><input id="nameInput" name="animal" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Escribí acá"><button type="submit" class="replay" id="nameOk">Listo</button><button type="button" class="replay alt" id="hintBtn">Pista</button></div>
+    </form>
     <div class="choose" id="choose" hidden><div class="choose-card"><h2>¿Quién ayuda al bosque?</h2><div class="wolves" id="wolves"></div></div></div>
-    <div class="complete" id="complete"><div class="complete-card"><h2>¡Muy bien!</h2><p id="completeText">Encontraste todas las manzanas en orden.</p><div class="complete-actions"><button class="replay" id="replay">Jugar otra vez</button><button class="replay alt" id="rechoose">Elegir otra loba</button></div></div></div>
+    <div class="complete" id="complete"><div class="complete-card"><h2 id="completeTitle">¡Muy bien!</h2><p id="completeText">Encontraste todas las manzanas en orden.</p><div class="complete-actions"><button class="replay" id="nextLevel">Siguiente nivel</button><button class="replay" id="replay">Jugar otra vez</button><button class="replay alt" id="rechoose">Elegir otra loba</button></div></div></div>
   </section>
   <p class="message" id="message" aria-live="polite">Tocá el cuadro de diálogo para seguir la historia.</p>
 </main>
@@ -152,17 +161,142 @@ const WOLVES={
  mary:{name:'Mary',color:'loba negra',pal:{f:'#3a3646',F:'#26222f',i:'#c47a7e'}},
  ely:{name:'Ely',color:'loba marrón',pal:{f:'#9a6338',F:'#714526',i:'#f0b07c'}}};
 function spriteSVG(rows,pal){const h=rows.length,w=Math.max(...rows.map(r=>r.length));let d={};rows.forEach((r,y)=>{let x=0;while(x<r.length){const c=r[x];let n=1;while(r[x+n]===c)n++;if(c!=='.'&&pal[c])(d[c]=d[c]||[]).push(`M${x} ${y}h${n}v1h-${n}z`);x+=n}});return `<svg viewBox="0 0 ${w} ${h}" shape-rendering="crispEdges" aria-hidden="true">`+Object.entries(d).map(([c,p])=>`<path fill="${pal[c]}" d="${p.join('')}"/>`).join('')+'</svg>'}
+// Amigos del bosque para el nivel 2.
+const VACA=overlay(M([
+"....kk......",
+"....kyk.....",
+"....kykkkkkk",
+"...kwwwwwwww",
+"kk.kwwwwwwww",
+"kpkkwwwwwwww",
+"kppkwwkkwwww",
+".kkkwwkewwww",
+"...kwwwwwwww",
+"...kpppppppp",
+"...kppkppppp",
+"...kpppppppp",
+"....kkkkkkkk",
+"....kwwwwwww",
+"...kwwbbwwww",
+"...kwwbbbwww",
+"...kwwwwwwww",
+"...kwwkwwwww",
+"...khhkwwwww",
+"....kkkkkkkk"]),["bbbb","bbbbb",".bbb"],15,3);
+const GALLINA=[
+"..............kk......",
+".............krrk.....",
+"............krrrk.....",
+"...........kwwwwk.....",
+"..........kwwwkwwk....",
+"..........kwwwwwwyyk..",
+"..........kwwwwwkyk...",
+"....kk.....kwwrrk.....",
+"...kwwk....kwwrk......",
+"..kwwwwkkkkwwwwk......",
+"..kwwwwwwwwwwwwwk.....",
+"..kwwgwwwwwwwwwwk.....",
+"...kwgggwwwwwwwwk.....",
+"...kwwgggggwwwwwk.....",
+"....kwwwwwwwwwwk......",
+".....kkwwwwwwkk.......",
+".......kkkkkk.........",
+"........o..o..........",
+"........o..o..........",
+".......oo.oo.........."];
+const PATO=[
+"........kkkk..........",
+".......kyyyyk.........",
+"......kyyyyyyk........",
+"......kyyykeyk........",
+"......kyyyyyyoook.....",
+"......kyyyyyyooook....",
+".......kyyyyykkkk.....",
+"........kyyyyk........",
+".kk.....kyyyyk........",
+"kyyk...kyyyyyyk.......",
+"kyyykkkyyyyyyyyk......",
+".kyyyyyyyyyyyyyk......",
+".kyyYYYYyyyyyyyk......",
+"..kyyYYYYYyyyyk.......",
+"...kyyyyyyyyyk........",
+"....kkkkkkkkk.........",
+"......oo..oo..........",
+".....ooo.ooo.........."];
+const CERDO=M([
+".kk........",
+".kPk.......",
+".kPPk......",
+".kpPPkkkkkk",
+"kpppppppppp",
+"kpppppppppp",
+"kpppkkppppp",
+"kpppkeppppp",
+"kpqqppkkkkk",
+"kpppppkPPPP",
+"kpppppkPkPP",
+"kpppppkPPPP",
+".kpppppkkkk",
+"..kkppppppp",
+"..kpppppppp",
+".kppppppppp",
+".kppppppppp",
+".kpppkppppp",
+".kPPk.kPPkk",
+"..kk...kk.."]);
+const CONEJO=M([
+"....kk.....",
+"...kuuk....",
+"...kuik....",
+"...kuik....",
+"...kuik....",
+"...kuik....",
+"..kkuukkkkk",
+".kuuuuuuuuu",
+"kuuuuuuuuuu",
+"kuuukkuuuuu",
+"kuuukeuuuuu",
+"kuqquuuuwwi",
+".kuuuuuwkwk",
+"..kkuuuwwww",
+"..kuuuwwwww",
+".kuuuuwwwww",
+".kuuuuwwwww",
+".kuuuuwwkww",
+"..kkkkkkkkk"]);
+const OVEJA=M([
+"...kkk.kkk..",
+"..kwwwkwwwkk",
+".kwwwwwwwwww",
+"kwwwwwkkkkkk",
+"kwkkkkdddddd",
+"kdddddddwkdd",
+".kkkkkddwkdd",
+"..kwwkdddddd",
+"..kwwkdddddd",
+"..kwwwkddddk",
+"..kwwwwkkkkk",
+".kwwwwwwwwww",
+"kwwwwwwwwwww",
+"kwwwwwwwwwww",
+".kwwwwwwwwww",
+"..kkkkkkkkkk",
+"...kdk..kdk.",
+"...kkk..kkk."]);
+const APAL={k:'#22161b',w:'#fff4e2',g:'#d8cdbb',b:'#2b2530',y:'#ffd54a',Y:'#e9a92a',o:'#f08a2c',r:'#d9473b',p:'#f6a6b2',P:'#e07b8f',q:'#ef7f86',h:'#5b4136',e:'#fff4e2',u:'#c9b8a0',i:'#f2a0a8',d:'#3a2f36'};
+const ANIMALS=[{id:'vaca',name:'Vaca',art:VACA},{id:'gallina',name:'Gallina',art:GALLINA},{id:'pato',name:'Pato',art:PATO},{id:'cerdo',name:'Cerdo',art:CERDO},{id:'conejo',name:'Conejo',art:CONEJO},{id:'oveja',name:'Oveja',art:OVEJA}];
 const crop=(rows,y0,y1,x0,x1)=>rows.slice(y0,y1).map(r=>r.slice(x0,x1));
 const wolfPal=k=>({...PAL,...WOLVES[k].pal});
 const foxSvg=spriteSVG(FOX,PAL),foxFace=spriteSVG(crop(FOX,0,14,8,28),PAL);
 const subtitle=document.getElementById('subtitle'),dialog=document.getElementById('dialog'),portrait=document.getElementById('portrait'),speaker=document.getElementById('speaker'),dlgText=document.getElementById('dlgText'),dlgFull=document.getElementById('dlgFull'),dlgNext=document.getElementById('dlgNext'),chooseEl=document.getElementById('choose'),wolvesEl=document.getElementById('wolves'),foxChar=document.getElementById('foxChar'),wolfChar=document.getElementById('wolfChar'),completeText=document.getElementById('completeText');
+const counterLabel=document.getElementById('counterLabel'),progressLabel=document.getElementById('progressLabel'),friendChar=document.getElementById('friendChar'),namer=document.getElementById('namer'),nameInput=document.getElementById('nameInput'),slotsEl=document.getElementById('slotsEl'),hintBtn=document.getElementById('hintBtn'),nextLevelBtn=document.getElementById('nextLevel'),completeTitle=document.getElementById('completeTitle');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let phase='story',wolf=null,queue=[],qi=0,onDone=null,typing=null,shown='';
+let phase='story',level=1,wolf=null,queue=[],qi=0,onDone=null,typing=null,shown='';
 function animate(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
-function enter(el,html){if(!el.hidden&&el.dataset.who===html.slice(0,40))return;el.innerHTML=html;el.dataset.who=html.slice(0,40);el.hidden=false;animate(el,'enter')}
-function who(line){if(line.who==='fox')return{name:'Kamy',cls:'fox',face:foxFace};if(line.who==='wolf')return{name:WOLVES[wolf].name,cls:'wolf',face:spriteSVG(crop(WOLF,0,14,0,22),wolfPal(wolf))};return{name:'Narrador',cls:'',face:appleSvg}}
-function story(lines,done){phase='story';queue=lines;qi=0;onDone=done;applesEl.hidden=true;dialog.hidden=false;message.classList.remove('error');message.textContent='Tocá el cuadro de diálogo para seguir la historia.';showLine();dlgNext.focus({preventScroll:true})}
-function showLine(){const line=queue[qi],w=who(line);if(line.fox||line.who==='fox')enter(foxChar,foxSvg);speaker.textContent=w.name;speaker.className='speaker '+w.cls;portrait.innerHTML=w.face;dlgFull.textContent=w.name+': '+line.text;clearInterval(typing);shown=line.text;if(reduced){dlgText.textContent=shown;typing=null;return}let i=0;dlgText.textContent='';typing=setInterval(()=>{i+=1;dlgText.textContent=shown.slice(0,i);if(i>=shown.length){clearInterval(typing);typing=null}},26);if(line.who==='fox')animate(foxChar,'laugh');if(line.who==='wolf')animate(wolfChar,'hop')}
+function enter(el,html,key=html){if(!el.hidden&&el.dataset.who===key)return;el.innerHTML=html;el.dataset.who=key;el.hidden=false;animate(el,'enter')}
+function who(line){if(line.who==='fox')return{name:'Kamy',cls:'fox',face:foxFace};if(line.who==='animal')return{name:line.animal.name,cls:'wolf',face:spriteSVG(line.animal.art,APAL)};if(line.who==='wolf')return{name:WOLVES[wolf].name,cls:'wolf',face:spriteSVG(crop(WOLF,0,14,0,22),wolfPal(wolf))};return{name:'Narrador',cls:'',face:appleSvg}}
+function story(lines,done){phase='story';queue=lines;qi=0;onDone=done;applesEl.hidden=true;namer.hidden=true;dialog.hidden=false;message.classList.remove('error');message.textContent='Tocá el cuadro de diálogo para seguir la historia.';showLine();dlgNext.focus({preventScroll:true})}
+function showLine(){const line=queue[qi],w=who(line);if(line.fox||line.who==='fox')enter(foxChar,foxSvg);speaker.textContent=w.name;speaker.className='speaker '+w.cls;portrait.innerHTML=w.face;dlgFull.textContent=w.name+': '+line.text;clearInterval(typing);shown=line.text;if(reduced){dlgText.textContent=shown;typing=null;return}let i=0;dlgText.textContent='';typing=setInterval(()=>{i+=1;dlgText.textContent=shown.slice(0,i);if(i>=shown.length){clearInterval(typing);typing=null}},26);if(line.who==='fox')animate(foxChar,'laugh');if(line.who==='wolf')animate(wolfChar,'hop');if(line.who==='animal')animate(friendChar,'hop')}
 function advance(){if(phase!=='story')return;if(typing){clearInterval(typing);typing=null;dlgText.textContent=shown;return}qi++;if(qi<queue.length)showLine();else endStory()}
 function endStory(){clearInterval(typing);typing=null;dialog.hidden=true;const d=onDone;onDone=null;d&&d()}
 dialog.addEventListener('click',e=>{if(e.target.closest('#dlgSkip'))return;advance()});
@@ -173,13 +307,35 @@ const INTRO=[
  {who:'fox',text:'¡Je, je! Soy Kamy. Anoche desordené todas las manzanas del bosque. ¡Nadie va a poder juntarlas en orden!'},
  {who:'narr',text:'Tres lobas escucharon el alboroto y vinieron corriendo. ¿Quién va a ayudar al bosque?'}];
 const READY={gaby:'¡Yo me encargo, Kamy! Las voy a juntar del 1 al 10, una por una.',mary:'Tranquilos, tengo buen olfato. ¡Empiezo por la manzana 1!',ely:'¡A contar se ha dicho! Uno, dos, tres… ¡vamos!'};
-function openChoose(){phase='choose';dialog.hidden=true;applesEl.hidden=true;completeEl.classList.remove('show');enter(foxChar,foxSvg);chooseEl.hidden=false;message.classList.remove('error');message.textContent='Elegí una loba para ayudar al bosque.';wolvesEl.querySelector('.wolf-btn')?.focus({preventScroll:true})}
+function openChoose(){phase='choose';level=1;friendChar.hidden=true;namer.hidden=true;dialog.hidden=true;applesEl.hidden=true;completeEl.classList.remove('show');enter(foxChar,foxSvg);chooseEl.hidden=false;message.classList.remove('error');message.textContent='Elegí una loba para ayudar al bosque.';wolvesEl.querySelector('.wolf-btn')?.focus({preventScroll:true})}
 Object.entries(WOLVES).forEach(([k,w])=>{const b=document.createElement('button');b.className='wolf-btn';b.id='wolf-'+k;b.innerHTML='<span class="pic">'+spriteSVG(WOLF,wolfPal(k))+'</span><strong>'+w.name+'</strong><small>'+w.color[0].toUpperCase()+w.color.slice(1)+'</small>';b.addEventListener('click',()=>choose(k));wolvesEl.append(b)});
 function choose(k){wolf=k;chooseEl.hidden=true;wolfChar.dataset.who='';enter(wolfChar,spriteSVG(WOLF,wolfPal(k)));subtitle.textContent='Ayudá a '+WOLVES[k].name+' a juntar las manzanas del 1 al 10.';story([{who:'wolf',text:READY[k]},{who:'fox',text:'¡Ja! Eso quiero verlo. Las manzanas están todas mezcladas.'}],start)}
-function start(){phase='play';enter(foxChar,foxSvg);expected=1;locked=false;clearTimeout(timer);dialog.hidden=true;applesEl.hidden=false;popEl.classList.remove('play');completeEl.classList.remove('show');nextEl.textContent='1';progressEl.textContent='0 / 10';message.textContent='Empezá buscando la manzana 1.';message.classList.remove('error');applesEl.replaceChildren();const nums=shuffle([1,2,3,4,5,6,7,8,9,10]);slots.forEach((slot,i)=>{const n=nums[i],btn=document.createElement('button');btn.className='apple';btn.style.left=slot.x+'%';btn.style.top=slot.y+'%';btn.setAttribute('aria-label','Manzana número '+n);btn.innerHTML=appleSvg+'<b>'+n+'</b>';btn.addEventListener('click',()=>pick(btn,n));applesEl.append(btn)})}
+function setHud(c,v,p,t){counterLabel.textContent=c;nextEl.textContent=v;progressLabel.textContent=p;progressEl.textContent=t}
+function start(){phase='play';level=1;friendChar.hidden=true;namer.hidden=true;setHud('Buscá el','1','Encontradas','0 / 10');subtitle.textContent='Ayudá a '+WOLVES[wolf].name+' a juntar las manzanas del 1 al 10.';enter(foxChar,foxSvg);expected=1;locked=false;clearTimeout(timer);dialog.hidden=true;applesEl.hidden=false;popEl.classList.remove('play');completeEl.classList.remove('show');nextEl.textContent='1';progressEl.textContent='0 / 10';message.textContent='Empezá buscando la manzana 1.';message.classList.remove('error');applesEl.replaceChildren();const nums=shuffle([1,2,3,4,5,6,7,8,9,10]);slots.forEach((slot,i)=>{const n=nums[i],btn=document.createElement('button');btn.className='apple';btn.style.left=slot.x+'%';btn.style.top=slot.y+'%';btn.setAttribute('aria-label','Manzana número '+n);btn.innerHTML=appleSvg+'<b>'+n+'</b>';btn.addEventListener('click',()=>pick(btn,n));applesEl.append(btn)})}
 function pick(btn,n){if(locked||phase!=='play')return;if(n!==expected){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');animate(foxChar,'laugh');message.textContent='¡Je, je! Ese no es. Buscá el número '+expected+'. ¡Vos podés!';message.classList.add('error');return}locked=true;btn.classList.add('picked');showNumber(n);animate(wolfChar,'hop');message.classList.remove('error');progressEl.textContent=n+' / 10';message.textContent=n===10?'¡Encontraste todas!':'¡Bien! Ahora buscá el '+(n+1)+'.';expected++;nextEl.textContent=expected<=10?expected:'✓';timer=setTimeout(()=>{locked=false;if(expected>10)finish()},700)}
-function finish(){story([{who:'fox',text:'¡Uy! Juntaste todas las manzanas en orden… Perdón, bosque. No lo voy a hacer más.'},{who:'wolf',text:'¡Gracias por ayudar! Ahora todos podemos contar del 1 al 10.'}],()=>{phase='done';completeText.textContent=WOLVES[wolf].name+' y vos ordenaron todas las manzanas del bosque.';completeEl.classList.add('show');document.getElementById('replay').focus()})}
-document.getElementById('replay').addEventListener('click',()=>{completeEl.classList.remove('show');story([{who:'fox',text:'¡Je, je! Las volví a mezclar. ¿Podrás ordenarlas otra vez?'}],start)});
+function finish(){story([{who:'fox',text:'¡Uy! Juntaste todas las manzanas en orden… Perdón, bosque. No lo voy a hacer más.'},{who:'wolf',text:'¡Gracias por ayudar! Ahora todos podemos contar del 1 al 10.'}],()=>showComplete('¡Nivel 1 completo!',WOLVES[wolf].name+' y vos ordenaron todas las manzanas del bosque.'))}
+function showComplete(title,text){phase='done';completeTitle.textContent=title;completeText.textContent=text;nextLevelBtn.textContent=level===1?'Siguiente nivel':'Volver al nivel 1';completeEl.classList.add('show');nextLevelBtn.focus()}
+// Nivel 2: la loba presenta a sus amigos y el jugador escribe el nombre de cada uno.
+const GREET={vaca:'¡Muuu! Hola, soy la vaca. Doy leche y me encanta comer pasto.',gallina:'¡Cocorocó! Soy la gallina. Cada mañana pongo huevos en mi nido.',pato:'¡Cuac, cuac! Soy el pato. Me encanta nadar en la laguna.',cerdo:'¡Oink, oink! Soy el cerdo. Me gusta jugar en el barro.',conejo:'¡Hola! Soy el conejo. Salto muy alto y como zanahorias.',oveja:'¡Beee! Soy la oveja. Con mi lana se hacen abrigos calentitos.'};
+const norm=t=>t.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+let friends=[],fi=0,hints=0,misses=0;
+function startLevel2(){level=2;applesEl.hidden=true;popEl.classList.remove('play');subtitle.textContent='Escribí el nombre de cada amigo de '+WOLVES[wolf].name+'.';setHud('Nivel','2','Amigos','0 / '+ANIMALS.length);story([
+ {who:'wolf',text:'¡Gracias por ayudarme con las manzanas! Ahora quiero presentarte a mis amigos del bosque.'},
+ {who:'fox',text:'¿Amigos? ¡Je, je! Yo no tengo ninguno… Bueno, ¿puedo ir con ustedes?'},
+ {who:'wolf',text:'¡Claro, Kamy! Cada amigo va a salir a saludar. ¿Me ayudás a escribir su nombre?'},
+ {who:'narr',text:'Mirá bien al animal y escribí cómo se llama. Si no te sale, tocá Pista.'}],()=>{friends=shuffle(ANIMALS.slice());fi=0;showFriend()})}
+function showFriend(){phase='name';const a=friends[fi];hints=0;misses=0;friendChar.dataset.who='';enter(friendChar,spriteSVG(a.art,APAL),a.id);nameInput.value='';renderSlots();namer.hidden=false;message.classList.remove('error');message.textContent='¿Quién es este amigo? Tiene '+a.name.length+' letras.';nameInput.focus({preventScroll:true})}
+function renderSlots(ok){const ans=friends[fi].name.toUpperCase(),typed=nameInput.value.toUpperCase();slotsEl.replaceChildren(...[...ans].map((ch,i)=>{const d=document.createElement('span');d.className='slot'+(ok?' ok':'');if(typed[i])d.textContent=typed[i];else if(i<hints){d.textContent=ch;d.classList.add('hint')}return d}))}
+nameInput.addEventListener('input',()=>{if(phase==='name')renderSlots()});
+function giveHint(){const ans=friends[fi].name;if(hints<ans.length-1)hints++;renderSlots();message.classList.remove('error');message.textContent='Empieza con '+ans.slice(0,hints).toUpperCase()+'…';nameInput.focus({preventScroll:true})}
+hintBtn.addEventListener('click',()=>{if(phase==='name')giveHint()});
+namer.addEventListener('submit',e=>{e.preventDefault();if(phase!=='name')return;const a=friends[fi],guess=norm(nameInput.value);if(!guess){message.textContent='Escribí el nombre del animal y tocá Listo.';return}
+ if(guess!==norm(a.name)){misses++;animate(namer,'shake');animate(foxChar,'laugh');message.classList.add('error');message.textContent='¡Je, je! Ese no es. Mirá bien al animal.'+(misses>=2?' Te doy una pista.':'');if(misses>=2)giveHint();else nameInput.select();return}
+ nameInput.value=a.name.toUpperCase();renderSlots(true);progressEl.textContent=(fi+1)+' / '+friends.length;message.classList.remove('error');message.textContent='¡Muy bien! Es '+(a.id==='pato'||a.id==='cerdo'||a.id==='conejo'?'el ':'la ')+a.name.toLowerCase()+'.';phase='wait';
+ setTimeout(()=>story([{who:'animal',animal:a,text:GREET[a.id]}],()=>{fi++;if(fi<friends.length)showFriend();else finishLevel2()}),700)});
+function finishLevel2(){story([{who:'fox',text:'¡Cuántos amigos! Ahora yo también quiero ser amigo de todos.'},{who:'wolf',text:'¡Bienvenido, Kamy! Pero nada de travesuras, ¿eh?'}],()=>showComplete('¡Nivel 2 completo!','Conociste a los '+friends.length+' amigos del bosque de '+WOLVES[wolf].name+'.'))}
+nextLevelBtn.addEventListener('click',()=>{completeEl.classList.remove('show');if(level===1)startLevel2();else{friendChar.hidden=true;story([{who:'fox',text:'¡Je, je! Volví a mezclar las manzanas. ¿Las ordenás otra vez?'}],start)}});
+document.getElementById('replay').addEventListener('click',()=>{completeEl.classList.remove('show');if(level===2){friendChar.hidden=true;startLevel2();return}story([{who:'fox',text:'¡Je, je! Las volví a mezclar. ¿Podrás ordenarlas otra vez?'}],start)});
 document.getElementById('rechoose').addEventListener('click',openChoose);
 story(INTRO,openChoose);
 const modelContext=document.modelContext;
