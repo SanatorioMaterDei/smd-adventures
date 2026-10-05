@@ -160,7 +160,7 @@ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
 let phase='story',wolf=null,queue=[],qi=0,onDone=null,typing=null,shown='';
 function animate(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
 function enter(el,html){if(!el.hidden&&el.dataset.who===html.slice(0,40))return;el.innerHTML=html;el.dataset.who=html.slice(0,40);el.hidden=false;animate(el,'enter')}
-function who(line){if(line.who==='fox')return{name:'Rufo',cls:'fox',face:foxFace};if(line.who==='wolf')return{name:WOLVES[wolf].name,cls:'wolf',face:spriteSVG(crop(WOLF,0,14,0,22),wolfPal(wolf))};return{name:'Narrador',cls:'',face:appleSvg}}
+function who(line){if(line.who==='fox')return{name:'Kamy',cls:'fox',face:foxFace};if(line.who==='wolf')return{name:WOLVES[wolf].name,cls:'wolf',face:spriteSVG(crop(WOLF,0,14,0,22),wolfPal(wolf))};return{name:'Narrador',cls:'',face:appleSvg}}
 function story(lines,done){phase='story';queue=lines;qi=0;onDone=done;applesEl.hidden=true;dialog.hidden=false;message.classList.remove('error');message.textContent='Tocá el cuadro de diálogo para seguir la historia.';showLine();dlgNext.focus({preventScroll:true})}
 function showLine(){const line=queue[qi],w=who(line);if(line.fox||line.who==='fox')enter(foxChar,foxSvg);speaker.textContent=w.name;speaker.className='speaker '+w.cls;portrait.innerHTML=w.face;dlgFull.textContent=w.name+': '+line.text;clearInterval(typing);shown=line.text;if(reduced){dlgText.textContent=shown;typing=null;return}let i=0;dlgText.textContent='';typing=setInterval(()=>{i+=1;dlgText.textContent=shown.slice(0,i);if(i>=shown.length){clearInterval(typing);typing=null}},26);if(line.who==='fox')animate(foxChar,'laugh');if(line.who==='wolf')animate(wolfChar,'hop')}
 function advance(){if(phase!=='story')return;if(typing){clearInterval(typing);typing=null;dlgText.textContent=shown;return}qi++;if(qi<queue.length)showLine();else endStory()}
@@ -170,9 +170,9 @@ document.getElementById('dlgSkip').addEventListener('click',()=>{if(phase==='sto
 const INTRO=[
  {who:'narr',text:'En el Bosque de números, los manzanos dan manzanas con números del 1 al 10. Cada mañana, los animales las juntan en orden.'},
  {who:'narr',text:'Pero esta mañana, entre los arbustos, se escuchó una risita…',fox:true},
- {who:'fox',text:'¡Je, je! Soy Rufo. Anoche desordené todas las manzanas del bosque. ¡Nadie va a poder juntarlas en orden!'},
+ {who:'fox',text:'¡Je, je! Soy Kamy. Anoche desordené todas las manzanas del bosque. ¡Nadie va a poder juntarlas en orden!'},
  {who:'narr',text:'Tres lobas escucharon el alboroto y vinieron corriendo. ¿Quién va a ayudar al bosque?'}];
-const READY={gaby:'¡Yo me encargo, Rufo! Las voy a juntar del 1 al 10, una por una.',mary:'Tranquilos, tengo buen olfato. ¡Empiezo por la manzana 1!',ely:'¡A contar se ha dicho! Uno, dos, tres… ¡vamos!'};
+const READY={gaby:'¡Yo me encargo, Kamy! Las voy a juntar del 1 al 10, una por una.',mary:'Tranquilos, tengo buen olfato. ¡Empiezo por la manzana 1!',ely:'¡A contar se ha dicho! Uno, dos, tres… ¡vamos!'};
 function openChoose(){phase='choose';dialog.hidden=true;applesEl.hidden=true;completeEl.classList.remove('show');enter(foxChar,foxSvg);chooseEl.hidden=false;message.classList.remove('error');message.textContent='Elegí una loba para ayudar al bosque.';wolvesEl.querySelector('.wolf-btn')?.focus({preventScroll:true})}
 Object.entries(WOLVES).forEach(([k,w])=>{const b=document.createElement('button');b.className='wolf-btn';b.id='wolf-'+k;b.innerHTML='<span class="pic">'+spriteSVG(WOLF,wolfPal(k))+'</span><strong>'+w.name+'</strong><small>'+w.color[0].toUpperCase()+w.color.slice(1)+'</small>';b.addEventListener('click',()=>choose(k));wolvesEl.append(b)});
 function choose(k){wolf=k;chooseEl.hidden=true;wolfChar.dataset.who='';enter(wolfChar,spriteSVG(WOLF,wolfPal(k)));subtitle.textContent='Ayudá a '+WOLVES[k].name+' a juntar las manzanas del 1 al 10.';story([{who:'wolf',text:READY[k]},{who:'fox',text:'¡Ja! Eso quiero verlo. Las manzanas están todas mezcladas.'}],start)}
