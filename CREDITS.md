@@ -2,7 +2,7 @@
 
 ## Sonidos de animales
 
-Grabaciones tomadas de [Wikimedia Commons](https://commons.wikimedia.org/), descargadas en MP3 sin modificar. El juego reproduce solo un tramo de cada archivo.
+Grabaciones tomadas de [Wikimedia Commons](https://commons.wikimedia.org/). Cambios: se recortó el tramo donde se escucha el animal, se pasó a mono, se normalizó el volumen y se agregaron fundidos cortos de entrada y salida.
 
 | Archivo | Animal | Autor | Licencia | Fuente |
 |---|---|---|---|---|
@@ -14,3 +14,12 @@ Grabaciones tomadas de [Wikimedia Commons](https://commons.wikimedia.org/), desc
 | sounds/loba.mp3 | Loba | Desconocido | Public domain | [Wolf howls.ogg](https://commons.wikimedia.org/wiki/File:Wolf_howls.ogg) |
 
 Los archivos con licencia CC BY-SA se redistribuyen bajo la misma licencia.
+
+## Tipografías
+
+| Archivo | Tipografía | Licencia |
+|---|---|---|
+| fonts/fredoka-latin.woff2 | [Fredoka](https://fonts.google.com/specimen/Fredoka) | SIL Open Font License 1.1 (`fonts/OFL-Fredoka.txt`) |
+| fonts/press-start-2p-latin.woff2 | [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) | SIL Open Font License 1.1 (`fonts/OFL-PressStart2P.txt`) |
+
+Se incluye solo el subconjunto latino de cada una, tal como lo distribuye Google Fonts.

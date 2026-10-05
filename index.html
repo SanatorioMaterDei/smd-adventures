@@ -2,423 +2,139 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#173c38">
   <meta name="description" content="Un juego pixel art para aprender el orden de los números, los nombres de los animales y sus sonidos.">
   <title>Bosque de números</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%232c8f52' d='M17 5h8v4h-8z'/%3E%3Cpath fill='%23733e2b' d='M15 3h3v8h-3z'/%3E%3Cpath fill='%23db4b39' d='M8 9h16v3h4v12h-4v4H8v-4H4V12h4z'/%3E%3Cpath fill='%23ff9b67' d='M8 12h4v4H8z'/%3E%3C/svg%3E">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Press+Start+2P&display=swap');
-    :root{font-family:Fredoka,system-ui,sans-serif;color:#fff9db;background:#173c38;font-size:16px}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -20%,#416f51 0,#173c38 65%);display:flex;align-items:center;justify-content:center;padding:24px}
-    button{font:inherit}.app{width:min(1120px,100%)}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 18px}.titleblock h1{font:clamp(1.15rem,2.8vw,1.8rem)/1.4 'Press Start 2P',monospace;color:#fff4bd;margin:0 0 10px;text-shadow:3px 3px 0 #315743}.titleblock p{font-size:1.1rem;margin:0;color:#d7e6b5}.hud{display:flex;align-items:stretch;gap:10px;flex-shrink:0}.counter,.progress{background:#fdf3cf;color:#28543d;border:4px solid #a6c980;box-shadow:5px 5px 0 #0c292b;padding:9px 15px;min-height:64px;display:flex;align-items:center;justify-content:center}.counter{gap:12px}.counter small,.progress small{display:block;font-weight:600;font-size:.82rem;line-height:1.1}.counter strong{font:1.8rem/1 'Press Start 2P',monospace;color:#cf4939}.progress{min-width:110px;flex-direction:column}.progress strong{font:1rem/1.3 'Press Start 2P',monospace;margin-top:5px}
-    .frame{position:relative;border:8px solid #8c5537;box-shadow:0 0 0 5px #cf9b5a,0 14px 0 5px #0c292b,0 26px 40px #071e20;overflow:hidden;background:#78c9c5;aspect-ratio:16/9}.frame canvas{width:100%;height:100%;display:block;image-rendering:pixelated}.apples{position:absolute;inset:0}.apple{position:absolute;width:clamp(42px,5.5vw,62px);height:clamp(42px,5.5vw,62px);transform:translate(-50%,-50%);border:0;background:transparent;padding:0;cursor:pointer;filter:drop-shadow(2px 4px 0 #183b26);touch-action:manipulation}.apple:focus-visible{outline:4px solid #fff8ac;outline-offset:4px;border-radius:12px}.apple:hover{transform:translate(-50%,-54%) scale(1.13)}.apple svg{width:100%;height:100%;display:block;image-rendering:pixelated}.apple b{position:absolute;inset:23% 0 0;display:grid;place-items:center;font:clamp(.85rem,1.65vw,1.15rem)/1 'Press Start 2P',monospace;color:#fff8d5;text-shadow:2px 2px 0 #842f2b;pointer-events:none}.apple.shake{animation:shake .35s steps(4,end)}.apple.picked{pointer-events:none;animation:pop .23s steps(3,end) forwards}.apple.next{filter:drop-shadow(0 0 5px #fff9a8) drop-shadow(2px 4px 0 #183b26)}@keyframes shake{0%,100%{margin-left:0}25%{margin-left:-7px}50%{margin-left:7px}75%{margin-left:-5px}}@keyframes pop{to{transform:translate(-50%,-70%) scale(0);opacity:0}}
-    .number-pop{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%) scale(.16);opacity:0;pointer-events:none;color:#fff8dc;font:clamp(4rem,14vw,10rem)/1 'Press Start 2P',monospace;text-shadow:7px 7px 0 #c9503b,-5px -5px 0 #eaa24e,0 12px 0 #713e34;z-index:5;will-change:transform,opacity}.number-pop.play{animation:number-show .7s cubic-bezier(.2,.7,.22,1) both}@keyframes number-show{0%{transform:translate(-50%,-50%) scale(.12);opacity:0}35%,58%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(.12);opacity:0}}
-    .message{min-height:28px;margin:24px 0 0;text-align:center;color:#eef4ce;font-size:1.1rem;font-weight:600}.message.error{color:#ffd19b}.complete{position:absolute;inset:0;background:#143d35d9;z-index:6;display:none;align-items:center;justify-content:center;text-align:center;padding:20px}.complete.show{display:flex}.complete-card{background:#fff4cb;border:6px solid #a5ca7e;box-shadow:8px 8px 0 #0b2828;padding:22px 25px 25px;color:#28533a;max-width:360px}.complete-card h2{font:1.25rem/1.6 'Press Start 2P',monospace;margin:0 0 14px;color:#c74c38}.complete-card p{font-size:1.2rem;margin:0 0 22px}.replay{border:0;background:#d4543e;color:#fff7dc;padding:14px 18px;font:.82rem/1.4 'Press Start 2P',monospace;box-shadow:4px 4px 0 #7c342d;cursor:pointer}.replay:hover{background:#e96748}.replay:focus-visible{outline:4px solid #2c8558;outline-offset:4px}
-    .credits{margin:14px auto 0;max-width:60ch;color:#a9c79a;font-size:.9rem;text-align:center}.credits summary{cursor:pointer}.credits p{margin:8px 0 0;line-height:1.45}
-    .sound-toggle{background:#fdf3cf;border:4px solid #a6c980;box-shadow:5px 5px 0 #0c292b;width:64px;min-height:64px;padding:10px;cursor:pointer;display:grid;place-items:center}.sound-toggle svg{width:100%;height:auto;display:block}.sound-toggle:hover{background:#fff}.sound-toggle:focus-visible{outline:4px solid #fff8ac;outline-offset:3px}
-    @media(max-width:720px){.sound-toggle{width:54px;min-height:54px;flex:0 0 auto}}
-    [hidden]{display:none!important}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-    .complete-actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}.replay.alt{background:#2c8558;box-shadow:4px 4px 0 #18503a}.replay.alt:hover{background:#38a06a}
-    .cast{position:absolute;inset:0;pointer-events:none;z-index:3}.char{position:absolute;bottom:4%;width:clamp(66px,11vw,124px);transform:translateX(-50%);filter:drop-shadow(3px 4px 0 #183b26)}.char svg{width:100%;height:auto;display:block}.char.wolf{left:17%}.char.fox{left:83%}.char.enter{animation:enter .6s steps(6,end) both}.char.fox.enter{animation-name:enter-right}.char.hop{animation:hop .4s steps(4,end)}.char.laugh{animation:laugh .5s steps(4,end)}
-    @keyframes enter{from{transform:translateX(-260%)}to{transform:translateX(-50%)}}@keyframes enter-right{from{transform:translateX(160%)}to{transform:translateX(-50%)}}@keyframes hop{0%,100%{transform:translate(-50%,0)}50%{transform:translate(-50%,-22%)}}@keyframes laugh{0%,50%,100%{transform:translate(-50%,0)}25%,75%{transform:translate(-50%,-10%) rotate(-4deg)}}
-    .dialog{position:absolute;top:4%;left:4%;right:4%;z-index:7;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;background:#10302d;border:4px solid #fff4cb;box-shadow:0 0 0 4px #0c292b,inset 0 0 0 4px #2d6b52,8px 10px 0 4px #0c292b;padding:16px 18px 18px;cursor:pointer;color:#fff9db}
-    .portrait{width:clamp(56px,8vw,86px);aspect-ratio:1;background:#78c9c5;border:4px solid #cf9b5a;box-shadow:inset 0 -10px 0 #4a9a58;display:grid;place-items:end center;overflow:hidden;padding:4px 4px 0}.portrait svg{width:100%;height:auto;display:block}
-    .dlg-body{min-width:0}.speaker{display:inline-block;font:.72rem/1 'Press Start 2P',monospace;background:#d4543e;color:#fff7dc;padding:7px 9px;box-shadow:3px 3px 0 #7c342d;margin-bottom:10px}.speaker.fox{background:#ec7a33;box-shadow:3px 3px 0 #9a4519}.speaker.wolf{background:#2c8558;box-shadow:3px 3px 0 #18503a}
-    .dlg-text{margin:0;font-size:clamp(1rem,1.9vw,1.3rem);line-height:1.45;font-weight:500;min-height:2.9em;max-width:60ch}
-    .dlg-next{position:absolute;right:12px;bottom:8px;border:0;background:transparent;color:#fff4bd;font:.8rem/1 'Press Start 2P',monospace;padding:6px;cursor:pointer;animation:blink 1s steps(2,start) infinite}.dlg-next:focus-visible,.dlg-skip:focus-visible,.wolf-btn:focus-visible{outline:4px solid #fff8ac;outline-offset:3px}
-    .dlg-skip{position:absolute;right:10px;top:10px;border:0;background:#0c292b;color:#d7e6b5;font:.55rem/1 'Press Start 2P',monospace;padding:7px 8px;cursor:pointer}.dlg-skip:hover{color:#fff4bd}
-    @keyframes blink{to{visibility:hidden}}
-    .choose{position:absolute;inset:0;z-index:8;background:#143d35d9;display:flex;align-items:center;justify-content:center;padding:16px}.choose-card{background:#fff4cb;border:6px solid #a5ca7e;box-shadow:8px 8px 0 #0b2828;padding:18px 20px 22px;color:#28533a;text-align:center;width:min(640px,100%)}.choose-card h2{font:clamp(.8rem,1.6vw,1.05rem)/1.6 'Press Start 2P',monospace;margin:0 0 14px;color:#c74c38}
-    .wolves{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.wolf-btn{border:4px solid #a6c980;background:#fdf9e6;box-shadow:4px 4px 0 #0c292b;padding:10px 6px 12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;color:#28543d;min-width:0}.wolf-btn:hover{background:#fff;transform:translateY(-3px)}.wolf-btn .pic{width:min(100%,104px)}.wolf-btn svg{width:100%;height:auto;display:block}.wolf-btn strong{font:.85rem/1 'Press Start 2P',monospace;color:#c74c38}.wolf-btn small{font-size:.95rem;font-weight:600}
-    @media(max-width:720px){.namer{top:3%;padding:12px 10px 14px;gap:10px;width:94%}.name-row input{font-size:.85rem;flex-basis:100%}.name-row .replay{padding:12px 12px;font-size:.7rem}.char.friend{width:clamp(96px,30vw,150px)}.dialog{top:3%;left:3%;right:3%;gap:10px;padding:12px 12px 16px}.speaker{font-size:.6rem}.char{width:clamp(56px,17vw,90px)}.choose-card{padding:14px 10px 16px}.wolves{gap:8px}.wolf-btn{padding:8px 4px 10px}.wolf-btn strong{font-size:.68rem}.wolf-btn small{font-size:.8rem}}
-    .char.friend{left:50%;bottom:5%;width:clamp(104px,18vw,200px);transform-origin:50% 100%}.char.friend.enter{animation:friend-in .45s steps(5,end) both}@keyframes friend-in{from{transform:translateX(-50%) scale(0)}to{transform:translateX(-50%) scale(1)}}
-    .namer{position:absolute;top:4%;left:50%;transform:translateX(-50%);width:min(560px,92%);z-index:7;background:#10302d;border:4px solid #fff4cb;box-shadow:0 0 0 4px #0c292b,inset 0 0 0 4px #2d6b52,8px 10px 0 4px #0c292b;padding:14px 18px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;margin:0}
-    .namer label{margin:0}.slots{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}.slot{width:clamp(28px,4.4vw,42px);aspect-ratio:1;display:grid;place-items:center;background:#fdf3cf;border:3px solid #a6c980;box-shadow:3px 3px 0 #0c292b;color:#c74c38;font:clamp(.8rem,1.6vw,1.1rem)/1 'Press Start 2P',monospace}.slot.hint{color:#8fae7a}.slot.ok{background:#d9f2b4;color:#28543d}
-    .name-row{display:flex;gap:10px;width:100%;flex-wrap:wrap;justify-content:center}.name-row input{flex:1 1 160px;min-width:0;font:1.05rem/1 'Press Start 2P',monospace;text-transform:uppercase;letter-spacing:.08em;padding:12px;background:#fff9e8;color:#28533a;border:4px solid #a6c980;box-shadow:inset 3px 3px 0 #e2d6a8;border-radius:0}.name-row input:focus-visible{outline:4px solid #fff8ac;outline-offset:2px}.name-row .replay{flex:0 0 auto}.namer.shake{animation:shake .35s steps(4,end)}
-    .l3{position:absolute;top:4%;left:4%;right:4%;z-index:7;display:flex;flex-direction:column;align-items:center;gap:18px}
-    .sound-box{display:flex;align-items:center;gap:16px;background:#10302d;border:4px solid #fff4cb;box-shadow:0 0 0 4px #0c292b,inset 0 0 0 4px #2d6b52,8px 10px 0 4px #0c292b;padding:12px 18px;width:min(560px,100%)}
-    .bush{width:clamp(56px,8vw,84px);flex:0 0 auto}.bush svg{width:100%;height:auto;display:block}.bush.rustle{animation:rustle .5s steps(4,end)}@keyframes rustle{25%{transform:translateX(-4px) rotate(-3deg)}50%{transform:translateX(4px) rotate(3deg)}75%{transform:translateX(-2px)}}
-    .bubble{flex:1;min-width:0;margin:0;font:clamp(1rem,2.6vw,1.7rem)/1.3 'Press Start 2P',monospace;color:#fff4bd;text-shadow:3px 3px 0 #842f2b;text-align:center}
-    .choices{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:min(520px,100%)}.choices .wolf-btn .pic{width:min(100%,96px)}.wolf-btn.ok{background:#d9f2b4;border-color:#2c8558}.wolf-btn:disabled{background:#d6d1bd;border-color:#a9a58f;filter:grayscale(1);cursor:default;transform:none}.wolf-btn.shake{animation:shake .35s steps(4,end)}.wolf-btn.bounce{animation:bounce .45s steps(4,end)}@keyframes bounce{50%{transform:translateY(-14px)}}
-    @media(max-width:720px){.l3{top:3%;left:3%;right:3%;gap:12px}.sound-box{padding:10px 10px;gap:10px}.sound-box .replay{padding:10px 8px;font-size:.62rem}.choices{gap:8px}}
-    @media(prefers-reduced-motion:reduce){.char,.dlg-next{animation:none!important}}
-    @media(max-width:720px){body{padding:16px;align-items:flex-start}.top{align-items:flex-start;flex-direction:column}.titleblock h1{font-size:1.13rem}.titleblock p{font-size:1rem}.hud{width:100%}.counter,.progress{min-height:54px}.frame{aspect-ratio:4/5}.apple{width:clamp(37px,10vw,53px);height:clamp(37px,10vw,53px)}.apple b{font-size:.8rem}.number-pop{font-size:5rem}.message{margin-top:22px;font-size:1rem}}@media(prefers-reduced-motion:reduce){.apple,.number-pop{animation-duration:.01ms!important;transition:none!important}}
-  </style>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preload" href="fonts/press-start-2p-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/fredoka-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 <main class="app">
   <header class="top">
-    <div class="titleblock"><h1>Bosque de números</h1><p id="subtitle">Tocá las manzanas en orden, del 1 al 10.</p></div>
-    <div class="hud"><div class="counter" aria-live="polite"><div><small id="counterLabel">Buscá el</small><strong id="next">1</strong></div></div><div class="progress"><small id="progressLabel">Encontradas</small><strong id="progress">0 / 10</strong></div><button class="sound-toggle" id="soundToggle" aria-pressed="true" aria-label="Sonido activado"></button></div>
+    <div class="titleblock">
+      <h1>Bosque de números</h1>
+      <p id="subtitle">Elegí un nivel para jugar.</p>
+    </div>
+    <div class="hud">
+      <div class="counter" aria-live="polite"><div><small id="counterLabel">Nivel</small><strong id="counterValue">–</strong></div></div>
+      <div class="progress"><small id="progressLabel">Completados</small><strong id="progressValue">0 / 3</strong></div>
+      <button type="button" class="icon-btn" id="homeBtn" aria-label="Volver al menú" hidden></button>
+      <button type="button" class="icon-btn" id="soundToggle" aria-pressed="true" aria-label="Sonido activado"></button>
+    </div>
   </header>
-  <section class="frame" aria-label="Bosque de manzanos con números del 1 al 10">
+
+  <section class="frame" id="frame" aria-label="Bosque del juego">
     <canvas id="forest" width="480" height="270" aria-hidden="true"></canvas>
-    <div class="cast" aria-hidden="true"><div class="char wolf" id="wolfChar" hidden></div><div class="char fox" id="foxChar" hidden></div><div class="char friend" id="friendChar" hidden></div></div>
+
+    <div class="cast" aria-hidden="true">
+      <div class="char wolf" id="wolfChar" hidden></div>
+      <div class="char fox" id="foxChar" hidden></div>
+      <div class="char friend" id="friendChar" hidden></div>
+    </div>
+
+    <!-- Nivel 1 -->
     <div class="apples" id="apples" hidden></div>
     <div class="number-pop" id="numberPop" aria-hidden="true"></div>
-    <div class="dialog" id="dialog" role="dialog" aria-label="Historia">
-      <div class="portrait" id="portrait" aria-hidden="true"></div>
-      <div class="dlg-body"><span class="speaker" id="speaker">Narrador</span><p class="dlg-text" id="dlgText" aria-hidden="true"></p><p class="sr-only" id="dlgFull" aria-live="polite"></p></div>
-      <button class="dlg-next" id="dlgNext" aria-label="Seguir">▼</button>
-      <button class="dlg-skip" id="dlgSkip">Saltar</button>
-    </div>
-    <form class="namer" id="namer" hidden autocomplete="off">
+
+    <!-- Nivel 2 -->
+    <form class="namer panel" id="namer" hidden autocomplete="off">
       <label class="speaker wolf" for="nameInput">¿Cómo se llama?</label>
-      <div class="slots" id="slotsEl" aria-hidden="true"></div>
-      <div class="name-row"><input id="nameInput" name="animal" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Escribí acá"><button type="submit" class="replay" id="nameOk">Listo</button><button type="button" class="replay alt" id="hintBtn">Pista</button></div>
+      <div class="slots" id="slots" aria-hidden="true"></div>
+      <div class="name-row">
+        <input id="nameInput" name="animal" maxlength="12" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Escribí acá">
+        <button type="submit" class="btn" id="nameOk">Listo</button>
+        <button type="button" class="btn alt" id="hintBtn">Pista</button>
+      </div>
     </form>
+
+    <!-- Nivel 3 -->
     <div class="l3" id="l3" hidden>
-      <div class="sound-box"><div class="bush" id="bushEl" aria-hidden="true"></div><p class="bubble" id="bubble" aria-live="polite"></p><button type="button" class="replay alt" id="listenBtn">Escuchar</button></div>
-      <div class="choices" id="choicesEl"></div>
+      <div class="sound-box panel">
+        <div class="bush" id="bush" aria-hidden="true"></div>
+        <p class="bubble" id="bubble" aria-live="polite"></p>
+        <button type="button" class="btn alt" id="listenBtn">Escuchar</button>
+      </div>
+      <div class="choices" id="choices"></div>
     </div>
-    <div class="choose" id="choose" hidden><div class="choose-card"><h2>¿Quién ayuda al bosque?</h2><div class="wolves" id="wolves"></div></div></div>
-    <div class="complete" id="complete"><div class="complete-card"><h2 id="completeTitle">¡Muy bien!</h2><p id="completeText">Encontraste todas las manzanas en orden.</p><div class="complete-actions"><button class="replay" id="nextLevel">Siguiente nivel</button><button class="replay" id="replay">Jugar otra vez</button><button class="replay alt" id="rechoose">Elegir otra loba</button></div></div></div>
+
+    <!-- Diálogos de la historia -->
+    <div class="dialog panel" id="dialog" role="dialog" aria-label="Historia" hidden>
+      <div class="portrait" id="portrait" aria-hidden="true"></div>
+      <div class="dlg-body">
+        <span class="speaker" id="speaker">Narrador</span>
+        <p class="dlg-text" id="dlgText" aria-hidden="true"></p>
+        <p class="sr-only" id="dlgFull" aria-live="polite"></p>
+      </div>
+      <button type="button" class="dlg-next" id="dlgNext" aria-label="Seguir">▼</button>
+      <button type="button" class="dlg-skip" id="dlgSkip">Saltar</button>
+    </div>
+
+    <!-- Menú de niveles -->
+    <div class="overlay" id="menu" hidden>
+      <div class="overlay-card menu-card">
+        <h2>Elegí un nivel</h2>
+        <div class="card-grid" id="levels"></div>
+        <div class="menu-options">
+          <span class="seg-label" id="diffLabel">Dificultad</span>
+          <div class="seg" role="group" aria-labelledby="diffLabel">
+            <button type="button" data-diff="chicos" aria-pressed="true">Para chicos</button>
+            <button type="button" data-diff="grandes" aria-pressed="false">Para grandes</button>
+          </div>
+          <button type="button" class="btn quiet" id="fullscreenBtn" hidden>Pantalla completa</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Elegir loba -->
+    <div class="overlay" id="choose" hidden>
+      <div class="overlay-card">
+        <h2 id="chooseTitle">¿Quién ayuda al bosque?</h2>
+        <div class="card-grid" id="wolves"></div>
+      </div>
+    </div>
+
+    <!-- Nivel completo -->
+    <div class="overlay" id="complete" hidden>
+      <div class="overlay-card complete-card">
+        <h2 id="completeTitle">¡Muy bien!</h2>
+        <p id="completeText"></p>
+        <div class="actions">
+          <button type="button" class="btn" id="nextLevelBtn">Siguiente nivel</button>
+          <button type="button" class="btn" id="replayBtn">Jugar otra vez</button>
+          <button type="button" class="btn alt" id="menuBtn">Menú</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modo sala de espera: nadie toca la pantalla hace un rato -->
+    <div class="overlay" id="idle" hidden>
+      <div class="overlay-card complete-card">
+        <h2>¿Seguís jugando?</h2>
+        <p class="idle-count" id="idleCount">15</p>
+        <div class="actions"><button type="button" class="btn" id="idleStay">¡Sí, sigo!</button></div>
+      </div>
+    </div>
   </section>
-  <p class="message" id="message" aria-live="polite">Tocá el cuadro de diálogo para seguir la historia.</p>
-  <details class="credits"><summary>Créditos de sonidos</summary><p>Grabaciones de Wikimedia Commons: vaca, MichaeltheFox8621 (CC BY-SA 4.0); pato, Jonathon Jongsma (CC BY-SA 3.0); cerdo, Secretlondon (CC BY-SA 3.0); gallina, alys; oveja, earthcalling; aullido de lobo, autor desconocido (estas tres, dominio público). Detalle y enlaces en CREDITS.md del repositorio.</p></details>
+
+  <p class="message" id="message" aria-live="polite"></p>
+  <details class="credits">
+    <summary>Créditos</summary>
+    <p>Sonidos de Wikimedia Commons, recortados y normalizados: vaca, MichaeltheFox8621 (CC BY-SA 4.0); pato, Jonathon Jongsma (CC BY-SA 3.0); cerdo, Secretlondon (CC BY-SA 3.0); gallina, alys; oveja, earthcalling; aullido de lobo, autor desconocido (estas tres, dominio público). Tipografías Fredoka y Press Start 2P (SIL Open Font License). Detalle en CREDITS.md del repositorio.</p>
+  </details>
 </main>
-<script>
-(()=>{
-const canvas=document.getElementById('forest'),ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;
-const W=480,H=270;let seed=17;function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}function rect(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))}
-function cloud(x,y){rect(x+8,y,38,10,'#e6fbec');rect(x,y+8,65,12,'#e6fbec');rect(x+14,y-5,24,6,'#e6fbec');rect(x+4,y+18,56,4,'#c5e9d4')}
-function pine(x,y,s){rect(x-3*s,y,6*s,75*s,'#41664b');for(let i=0;i<3;i++){let yy=y+i*15*s;rect(x-(18-i*3)*s,yy+15*s,(36-i*6)*s,9*s,'#397a55');rect(x-(13-i*3)*s,yy+5*s,(26-i*6)*s,13*s,'#4d9462');rect(x-5*s,yy,10*s,8*s,'#5ca36b')}}
-function tree(x,y,s){let t=Math.round(14*s);rect(x-t/2,y, t,105*s,'#744a2f');rect(x-t/2+3*s,y,3*s,105*s,'#9e6b3d');rect(x-14*s,y+37*s,28*s,8*s,'#744a2f');rect(x-31*s,y+26*s,28*s,7*s,'#744a2f');rect(x+4*s,y+22*s,27*s,7*s,'#744a2f');let blobs=[[-26,11,37,31],[-6,-7,43,42],[23,10,36,34],[-41,29,37,29],[-5,22,55,35],[30,33,34,26]];blobs.forEach(([bx,by,bw,bh],i)=>{rect(x+bx*s,y+by*s,bw*s,bh*s,i%2?'#257d48':'#2e8b4e');rect(x+(bx+4)*s,y+(by+3)*s,(bw-8)*s,6*s,'#48a960');rect(x+(bx+7)*s,y+(by+bh-8)*s,(bw-12)*s,5*s,'#1f6a42')})}
-function draw(){seed=17;rect(0,0,W,H,'#82cbcb');rect(0,0,W,90,'#91d7d1');cloud(30,24);cloud(183,42);cloud(380,18);rect(0,136,W,65,'#5da377');for(let i=0;i<12;i++)pine(i*48+rand()*28,100+rand()*34,.65+rand()*.2);rect(0,182,W,88,'#4a9a58');rect(0,201,W,69,'#3a854c');rect(0,247,W,23,'#377a42');for(let i=0;i<80;i++){let x=rand()*W,y=191+rand()*79;rect(x,y,4,2,rand()>.5?'#6cbf65':'#2c7144')}tree(76,88,1.05);tree(246,83,1.12);tree(410,91,1.03);for(let i=0;i<28;i++){let x=rand()*W,y=215+rand()*50;rect(x,y,2,5,'#72bc66');rect(x-2,y+2,6,2,'#80ca72');if(i%4===0){rect(x,y-2,3,3,'#f2d383')}}rect(0,260,W,10,'#326f40')}
-draw();
-const slots=[{x:9,y:30},{x:22,y:23},{x:17,y:42},{x:27,y:37},{x:43,y:22},{x:54,y:30},{x:61,y:44},{x:76,y:28},{x:87,y:23},{x:84,y:43}];
-const appleSvg='<svg viewBox="0 0 48 48" aria-hidden="true" shape-rendering="crispEdges"><path fill="#714631" d="M23 2h4v10h-4z"/><path fill="#61b454" d="M27 5h11v4h-4v4h-9V9h2z"/><path fill="#a73532" d="M9 13h9v-3h12v3h9v5h4v19h-5v5H10v-5H5V18h4z"/><path fill="#e55a42" d="M9 15h9v-3h12v3h9v5h3v14h-5v5H11v-5H7V20h2z"/><path fill="#ff8960" d="M12 18h8v4h-8zM10 22h5v7h-5z"/><path fill="#c84237" d="M32 18h7v18h-5v4H15v-3h17z"/></svg>';
-const applesEl=document.getElementById('apples'),nextEl=document.getElementById('next'),progressEl=document.getElementById('progress'),message=document.getElementById('message'),popEl=document.getElementById('numberPop'),completeEl=document.getElementById('complete');let expected=1,locked=false,timer;
-function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function showNumber(n){popEl.textContent=n;popEl.classList.remove('play');void popEl.offsetWidth;popEl.classList.add('play')}
-// Sprites: grillas de píxeles; M() espeja la mitad izquierda para armar caras simétricas.
-const M=h=>h.map(r=>r+[...r].reverse().join(''));
-function overlay(base,layer,dx,dy){const out=base.map(r=>[...r]);layer.forEach((r,y)=>[...r].forEach((c,x)=>{if(c!=='.'&&out[y+dy]&&x+dx<out[y+dy].length)out[y+dy][x+dx]=c}));return out.map(r=>r.join(''))}
-function pad(rows,left,w){return rows.map(r=>('.'.repeat(left)+r).padEnd(w,'.'))}
-const FOX_BODY=M([
-"...k......",
-"..krk.....",
-"..krrk....",
-"..krrok...",
-".krroookkk",
-".koooooooo",
-".klooooooo",
-".kooookkoo",
-".kooookeoo",
-".kwwoooooo",
-".kwwwwoook",
-"..kwwwwwkw",
-"...kkwwwww",
-"....kowwww",
-"...kooowww",
-"...kooowww",
-"...kooowww",
-"...kOoowww",
-"...kOooggw",
-"...kOOoggg",
-"...kbbbkbb",
-"...kbbbkbb",
-"....kkkkkk"]);
-const FOX_TAIL=[
-"..kk.......",
-".kwwk......",
-"kwwwwk.....",
-"kwwwwwk....",
-"kgwwwok....",
-"kooooook...",
-".kooooook..",
-".kOoooooo..",
-"..kOoooooo.",
-"..kOOooooo.",
-"...kOOOooo.",
-"....kkOOoo.",
-"......kkkk."];
-const FOX=overlay(pad(FOX_BODY,8,28),FOX_TAIL,0,8);
-const WOLF_BODY=M([
-"..kk.......",
-".kik.......",
-".kiik......",
-".kiiik.....",
-"kfiiifkkkkk",
-"kffffffffff",
-"kffffffffff",
-"kffffffffww",
-"kfffkkffwww",
-"kfffkeffwww",
-"kfppffwwwwk",
-"kffffwwwwkw",
-".kfffwwwwww",
-"..kkfwwwwww",
-"...kffffwww",
-"...kfffffww",
-"..kffffwwww",
-"..kfffffwww",
-"..kfFfffwww",
-"..kfFfffkww",
-"..kwwkfkwww",
-"...kkkkkkkk"]);
-const WOLF_TAIL=[
-"....kk.",
-"...kwwk",
-"...kwwk",
-"..kfffk",
-".kffffk",
-"kfFffk.",
-"kfFfk..",
-"kFFk...",
-".kk...."];
-const WOLF=overlay(pad(WOLF_BODY,0,28),WOLF_TAIL,19,10);
-const PAL={k:'#22161b',r:'#9a2f34',o:'#ec7a33',O:'#b9521f',l:'#ffa461',w:'#fff4e2',g:'#d8cdbb',e:'#fff4e2',b:'#4a2b20',p:'#f2948a'};
-const WOLVES={
- gaby:{name:'Gaby',color:'loba gris',pal:{f:'#7b8597',F:'#59627a',i:'#e6a989'}},
- mary:{name:'Mary',color:'loba negra',pal:{f:'#3a3646',F:'#26222f',i:'#c47a7e'}},
- ely:{name:'Ely',color:'loba marrón',pal:{f:'#9a6338',F:'#714526',i:'#f0b07c'}}};
-function spriteSVG(rows,pal){const h=rows.length,w=Math.max(...rows.map(r=>r.length));let d={};rows.forEach((r,y)=>{let x=0;while(x<r.length){const c=r[x];let n=1;while(r[x+n]===c)n++;if(c!=='.'&&pal[c])(d[c]=d[c]||[]).push(`M${x} ${y}h${n}v1h-${n}z`);x+=n}});return `<svg viewBox="0 0 ${w} ${h}" shape-rendering="crispEdges" aria-hidden="true">`+Object.entries(d).map(([c,p])=>`<path fill="${pal[c]}" d="${p.join('')}"/>`).join('')+'</svg>'}
-// Amigos del bosque para el nivel 2.
-const VACA=overlay(M([
-"....kk......",
-"....kyk.....",
-"....kykkkkkk",
-"...kwwwwwwww",
-"kk.kwwwwwwww",
-"kpkkwwwwwwww",
-"kppkwwkkwwww",
-".kkkwwkewwww",
-"...kwwwwwwww",
-"...kpppppppp",
-"...kppkppppp",
-"...kpppppppp",
-"....kkkkkkkk",
-"....kwwwwwww",
-"...kwwbbwwww",
-"...kwwbbbwww",
-"...kwwwwwwww",
-"...kwwkwwwww",
-"...khhkwwwww",
-"....kkkkkkkk"]),["bbbb","bbbbb",".bbb"],15,3);
-const GALLINA=[
-"..............kk......",
-".............krrk.....",
-"............krrrk.....",
-"...........kwwwwk.....",
-"..........kwwwkwwk....",
-"..........kwwwwwwyyk..",
-"..........kwwwwwkyk...",
-"....kk.....kwwrrk.....",
-"...kwwk....kwwrk......",
-"..kwwwwkkkkwwwwk......",
-"..kwwwwwwwwwwwwwk.....",
-"..kwwgwwwwwwwwwwk.....",
-"...kwgggwwwwwwwwk.....",
-"...kwwgggggwwwwwk.....",
-"....kwwwwwwwwwwk......",
-".....kkwwwwwwkk.......",
-".......kkkkkk.........",
-"........o..o..........",
-"........o..o..........",
-".......oo.oo.........."];
-const PATO=[
-"........kkkk..........",
-".......kyyyyk.........",
-"......kyyyyyyk........",
-"......kyyykeyk........",
-"......kyyyyyyoook.....",
-"......kyyyyyyooook....",
-".......kyyyyykkkk.....",
-"........kyyyyk........",
-".kk.....kyyyyk........",
-"kyyk...kyyyyyyk.......",
-"kyyykkkyyyyyyyyk......",
-".kyyyyyyyyyyyyyk......",
-".kyyYYYYyyyyyyyk......",
-"..kyyYYYYYyyyyk.......",
-"...kyyyyyyyyyk........",
-"....kkkkkkkkk.........",
-"......oo..oo..........",
-".....ooo.ooo.........."];
-const CERDO=M([
-".kk........",
-".kPk.......",
-".kPPk......",
-".kpPPkkkkkk",
-"kpppppppppp",
-"kpppppppppp",
-"kpppkkppppp",
-"kpppkeppppp",
-"kpqqppkkkkk",
-"kpppppkPPPP",
-"kpppppkPkPP",
-"kpppppkPPPP",
-".kpppppkkkk",
-"..kkppppppp",
-"..kpppppppp",
-".kppppppppp",
-".kppppppppp",
-".kpppkppppp",
-".kPPk.kPPkk",
-"..kk...kk.."]);
-const CONEJO=M([
-"....kk.....",
-"...kuuk....",
-"...kuik....",
-"...kuik....",
-"...kuik....",
-"...kuik....",
-"..kkuukkkkk",
-".kuuuuuuuuu",
-"kuuuuuuuuuu",
-"kuuukkuuuuu",
-"kuuukeuuuuu",
-"kuqquuuuwwi",
-".kuuuuuwkwk",
-"..kkuuuwwww",
-"..kuuuwwwww",
-".kuuuuwwwww",
-".kuuuuwwwww",
-".kuuuuwwkww",
-"..kkkkkkkkk"]);
-const OVEJA=M([
-"...kkk.kkk..",
-"..kwwwkwwwkk",
-".kwwwwwwwwww",
-"kwwwwwkkkkkk",
-"kwkkkkdddddd",
-"kdddddddwkdd",
-".kkkkkddwkdd",
-"..kwwkdddddd",
-"..kwwkdddddd",
-"..kwwwkddddk",
-"..kwwwwkkkkk",
-".kwwwwwwwwww",
-"kwwwwwwwwwww",
-"kwwwwwwwwwww",
-".kwwwwwwwwww",
-"..kkkkkkkkkk",
-"...kdk..kdk.",
-"...kkk..kkk."]);
-const APAL={k:'#22161b',w:'#fff4e2',g:'#d8cdbb',b:'#2b2530',y:'#ffd54a',Y:'#e9a92a',o:'#f08a2c',r:'#d9473b',p:'#f6a6b2',P:'#e07b8f',q:'#ef7f86',h:'#5b4136',e:'#fff4e2',u:'#c9b8a0',i:'#f2a0a8',d:'#3a2f36'};
-const ANIMALS=[{id:'vaca',name:'Vaca',art:VACA},{id:'gallina',name:'Gallina',art:GALLINA},{id:'pato',name:'Pato',art:PATO},{id:'cerdo',name:'Cerdo',art:CERDO},{id:'conejo',name:'Conejo',art:CONEJO},{id:'oveja',name:'Oveja',art:OVEJA}];
-const crop=(rows,y0,y1,x0,x1)=>rows.slice(y0,y1).map(r=>r.slice(x0,x1));
-const wolfPal=k=>({...PAL,...WOLVES[k].pal});
-const foxSvg=spriteSVG(FOX,PAL),foxFace=spriteSVG(crop(FOX,0,14,8,28),PAL);
-const subtitle=document.getElementById('subtitle'),dialog=document.getElementById('dialog'),portrait=document.getElementById('portrait'),speaker=document.getElementById('speaker'),dlgText=document.getElementById('dlgText'),dlgFull=document.getElementById('dlgFull'),dlgNext=document.getElementById('dlgNext'),chooseEl=document.getElementById('choose'),wolvesEl=document.getElementById('wolves'),foxChar=document.getElementById('foxChar'),wolfChar=document.getElementById('wolfChar'),completeText=document.getElementById('completeText');
-const counterLabel=document.getElementById('counterLabel'),progressLabel=document.getElementById('progressLabel'),friendChar=document.getElementById('friendChar'),namer=document.getElementById('namer'),nameInput=document.getElementById('nameInput'),slotsEl=document.getElementById('slotsEl'),hintBtn=document.getElementById('hintBtn'),nextLevelBtn=document.getElementById('nextLevel'),completeTitle=document.getElementById('completeTitle');
-const l3=document.getElementById('l3'),bushEl=document.getElementById('bushEl'),bubble=document.getElementById('bubble'),listenBtn=document.getElementById('listenBtn'),choicesEl=document.getElementById('choicesEl');
-const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-let phase='story',level=1,wolf=null,queue=[],qi=0,onDone=null,typing=null,shown='';
-function animate(el,cls){el.classList.remove(cls);void el.offsetWidth;el.classList.add(cls)}
-function enter(el,html,key=html){if(!el.hidden&&el.dataset.who===key)return;el.innerHTML=html;el.dataset.who=key;el.hidden=false;animate(el,'enter')}
-function who(line){if(line.who==='fox')return{name:'Kamy',cls:'fox',face:foxFace};if(line.who==='animal')return{name:line.animal.name,cls:'wolf',face:spriteSVG(line.animal.art,APAL)};if(line.who==='wolf')return{name:WOLVES[wolf].name,cls:'wolf',face:spriteSVG(crop(WOLF,0,14,0,22),wolfPal(wolf))};return{name:'Narrador',cls:'',face:appleSvg}}
-function story(lines,done){phase='story';queue=lines;qi=0;onDone=done;applesEl.hidden=true;namer.hidden=true;l3.hidden=true;dialog.hidden=false;message.classList.remove('error');message.textContent='Tocá el cuadro de diálogo para seguir la historia.';showLine();dlgNext.focus({preventScroll:true})}
-function showLine(){const line=queue[qi],w=who(line);if(line.fox||line.who==='fox')enter(foxChar,foxSvg);speaker.textContent=w.name;speaker.className='speaker '+w.cls;portrait.innerHTML=w.face;dlgFull.textContent=w.name+': '+line.text;clearInterval(typing);shown=line.text;if(reduced){dlgText.textContent=shown;typing=null;return}let i=0;dlgText.textContent='';typing=setInterval(()=>{i+=1;dlgText.textContent=shown.slice(0,i);if(i>=shown.length){clearInterval(typing);typing=null}},26);if(line.who==='fox')animate(foxChar,'laugh');if(line.who==='wolf')animate(wolfChar,'hop');if(line.who==='animal'){animate(friendChar,'hop');playAnimal(line.animal.id)}}
-// Efectos de sonido 8-bit sintetizados con Web Audio; el botón del HUD silencia todo.
-let muted=false;try{muted=localStorage.getItem('bosque-muted')==='1'}catch{}
-const soundToggle=document.getElementById('soundToggle');
-const SPK_ON=["...k.....","..kk..k..","kkkk...k.","kkkk.k.k.","kkkk.k.k.","kkkk...k.","..kk..k..","...k....."],SPK_OFF=["...k.....","..kk.....","kkkk.k.k.","kkkk..k..","kkkk.k.k.","kkkk.....","..kk.....","...k....."];
-function renderToggle(){soundToggle.innerHTML=spriteSVG(muted?SPK_OFF:SPK_ON,{k:muted?'#9a8f7a':'#28543d'});soundToggle.setAttribute('aria-pressed',String(!muted));soundToggle.setAttribute('aria-label',muted?'Sonido desactivado':'Sonido activado')}
-renderToggle();
-soundToggle.addEventListener('click',()=>{muted=!muted;try{localStorage.setItem('bosque-muted',muted?'1':'0')}catch{}if(muted){Object.values(audioCache).forEach(a=>a.pause());try{speechSynthesis.cancel()}catch{}}renderToggle();if(!muted)sfx.click()});
-let actx=null;
-function ac(){if(muted)return null;if(!actx){const C=window.AudioContext||window.webkitAudioContext;if(!C)return null;try{actx=new C()}catch{return null}}if(actx.state==='suspended')actx.resume();return actx}
-function tone(f,dur,{type='square',vol=.07,at=0,to=0}={}){const c=ac();if(!c)return;const t=c.currentTime+at,o=c.createOscillator(),g=c.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(to)o.frequency.linearRampToValueAtTime(to,t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g).connect(c.destination);o.start(t);o.stop(t+dur+.02)}
-const sfx={
- click:()=>tone(740,.05,{vol:.05}),
- next:()=>tone(520,.035,{vol:.04}),
- select:()=>{tone(523,.08);tone(784,.12,{at:.08})},
- good:(step=0)=>{const k=Math.pow(2,step/12);tone(523*k,.07,{vol:.06});tone(784*k,.12,{at:.07,vol:.06})},
- bad:()=>{tone(196,.12,{type:'sawtooth',vol:.05});tone(147,.2,{type:'sawtooth',vol:.05,at:.11})},
- hint:()=>tone(880,.15,{type:'triangle',vol:.08,to:1175}),
- win:()=>[523,659,784,1047].forEach((f,i)=>tone(f,i===3?.4:.11,{at:i*.11,vol:.06}))};
-document.addEventListener('click',e=>{const b=e.target.closest('button');if(!b||b.disabled||b===soundToggle)return;if(b.matches('.apple,.wolf-btn,#nameOk,#hintBtn,.dlg-next'))return;sfx.click()},true);
-function advance(){if(phase!=='story')return;sfx.next();if(typing){clearInterval(typing);typing=null;dlgText.textContent=shown;return}qi++;if(qi<queue.length)showLine();else endStory()}
-function endStory(){clearInterval(typing);typing=null;dialog.hidden=true;const d=onDone;onDone=null;d&&d()}
-dialog.addEventListener('click',e=>{if(e.target.closest('#dlgSkip'))return;advance()});
-document.getElementById('dlgSkip').addEventListener('click',()=>{if(phase==='story')endStory()});
-const INTRO=[
- {who:'narr',text:'En el Bosque de números, los manzanos dan manzanas con números del 1 al 10. Cada mañana, los animales las juntan en orden.'},
- {who:'narr',text:'Pero esta mañana, entre los arbustos, se escuchó una risita…',fox:true},
- {who:'fox',text:'¡Je, je! Soy Kamy. Anoche desordené todas las manzanas del bosque. ¡Nadie va a poder juntarlas en orden!'},
- {who:'narr',text:'Tres lobas escucharon el alboroto y vinieron corriendo. ¿Quién va a ayudar al bosque?'}];
-const READY={gaby:'¡Yo me encargo, Kamy! Las voy a juntar del 1 al 10, una por una.',mary:'Tranquilos, tengo buen olfato. ¡Empiezo por la manzana 1!',ely:'¡A contar se ha dicho! Uno, dos, tres… ¡vamos!'};
-function openChoose(){phase='choose';level=1;friendChar.hidden=true;l3.hidden=true;namer.hidden=true;dialog.hidden=true;applesEl.hidden=true;completeEl.classList.remove('show');enter(foxChar,foxSvg);chooseEl.hidden=false;message.classList.remove('error');message.textContent='Elegí una loba para ayudar al bosque.';wolvesEl.querySelector('.wolf-btn')?.focus({preventScroll:true})}
-Object.entries(WOLVES).forEach(([k,w])=>{const b=document.createElement('button');b.className='wolf-btn';b.id='wolf-'+k;b.innerHTML='<span class="pic">'+spriteSVG(WOLF,wolfPal(k))+'</span><strong>'+w.name+'</strong><small>'+w.color[0].toUpperCase()+w.color.slice(1)+'</small>';b.addEventListener('click',()=>choose(k));wolvesEl.append(b)});
-function choose(k){sfx.select();wolf=k;chooseEl.hidden=true;wolfChar.dataset.who='';enter(wolfChar,spriteSVG(WOLF,wolfPal(k)));subtitle.textContent='Ayudá a '+WOLVES[k].name+' a juntar las manzanas del 1 al 10.';story([{who:'wolf',text:READY[k]},{who:'fox',text:'¡Ja! Eso quiero verlo. Las manzanas están todas mezcladas.'}],start)}
-function setHud(c,v,p,t){counterLabel.textContent=c;nextEl.textContent=v;progressLabel.textContent=p;progressEl.textContent=t}
-function start(){phase='play';level=1;friendChar.hidden=true;l3.hidden=true;namer.hidden=true;setHud('Buscá el','1','Encontradas','0 / 10');subtitle.textContent='Ayudá a '+WOLVES[wolf].name+' a juntar las manzanas del 1 al 10.';enter(foxChar,foxSvg);expected=1;locked=false;clearTimeout(timer);dialog.hidden=true;applesEl.hidden=false;popEl.classList.remove('play');completeEl.classList.remove('show');nextEl.textContent='1';progressEl.textContent='0 / 10';message.textContent='Empezá buscando la manzana 1.';message.classList.remove('error');applesEl.replaceChildren();const nums=shuffle([1,2,3,4,5,6,7,8,9,10]);slots.forEach((slot,i)=>{const n=nums[i],btn=document.createElement('button');btn.className='apple';btn.style.left=slot.x+'%';btn.style.top=slot.y+'%';btn.setAttribute('aria-label','Manzana número '+n);btn.innerHTML=appleSvg+'<b>'+n+'</b>';btn.addEventListener('click',()=>pick(btn,n));applesEl.append(btn)})}
-function pick(btn,n){if(locked||phase!=='play')return;if(n!==expected){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');sfx.bad();animate(foxChar,'laugh');message.textContent='¡Je, je! Ese no es. Buscá el número '+expected+'. ¡Vos podés!';message.classList.add('error');return}locked=true;sfx.good(n-1);btn.classList.add('picked');showNumber(n);animate(wolfChar,'hop');message.classList.remove('error');progressEl.textContent=n+' / 10';message.textContent=n===10?'¡Encontraste todas!':'¡Bien! Ahora buscá el '+(n+1)+'.';expected++;nextEl.textContent=expected<=10?expected:'✓';timer=setTimeout(()=>{locked=false;if(expected>10)finish()},700)}
-function finish(){story([{who:'fox',text:'¡Uy! Juntaste todas las manzanas en orden… Perdón, bosque. No lo voy a hacer más.'},{who:'wolf',text:'¡Gracias por ayudar! Ahora todos podemos contar del 1 al 10.'}],()=>showComplete('¡Nivel 1 completo!',WOLVES[wolf].name+' y vos ordenaron todas las manzanas del bosque.'))}
-function showComplete(title,text){phase='done';sfx.win();completeTitle.textContent=title;completeText.textContent=text;nextLevelBtn.textContent=level<3?'Siguiente nivel':'Volver al nivel 1';completeEl.classList.add('show');nextLevelBtn.focus()}
-// Nivel 2: la loba presenta a sus amigos y el jugador escribe el nombre de cada uno.
-const GREET={vaca:'¡Muuu! Hola, soy la vaca. Doy leche y me encanta comer pasto.',gallina:'¡Co, co, co! Soy la gallina. Cada mañana pongo huevos en mi nido.',pato:'¡Cuac, cuac! Soy el pato. Me encanta nadar en la laguna.',cerdo:'¡Oink, oink! Soy el cerdo. Me gusta jugar en el barro.',conejo:'¡Hola! Soy el conejo. Salto muy alto y como zanahorias.',oveja:'¡Beee! Soy la oveja. Con mi lana se hacen abrigos calentitos.'};
-const norm=t=>t.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
-let friends=[],fi=0,hints=0,misses=0;
-function startLevel2(){level=2;applesEl.hidden=true;popEl.classList.remove('play');subtitle.textContent='Escribí el nombre de cada amigo de '+WOLVES[wolf].name+'.';setHud('Nivel','2','Amigos','0 / '+ANIMALS.length);story([
- {who:'wolf',text:'¡Gracias por ayudarme con las manzanas! Ahora quiero presentarte a mis amigos del bosque.'},
- {who:'fox',text:'¿Amigos? ¡Je, je! Yo no tengo ninguno… Bueno, ¿puedo ir con ustedes?'},
- {who:'wolf',text:'¡Claro, Kamy! Cada amigo va a salir a saludar. ¿Me ayudás a escribir su nombre?'},
- {who:'narr',text:'Mirá bien al animal y escribí cómo se llama. Si no te sale, tocá Pista.'}],()=>{friends=shuffle(ANIMALS.slice());fi=0;showFriend()})}
-function showFriend(){phase='name';const a=friends[fi];hints=0;misses=0;friendChar.dataset.who='';enter(friendChar,spriteSVG(a.art,APAL),a.id);nameInput.value='';renderSlots();namer.hidden=false;message.classList.remove('error');message.textContent='¿Quién es este amigo? Tiene '+a.name.length+' letras.';nameInput.focus({preventScroll:true})}
-function renderSlots(ok){const ans=friends[fi].name.toUpperCase(),typed=nameInput.value.toUpperCase();slotsEl.replaceChildren(...[...ans].map((ch,i)=>{const d=document.createElement('span');d.className='slot'+(ok?' ok':'');if(typed[i])d.textContent=typed[i];else if(i<hints){d.textContent=ch;d.classList.add('hint')}return d}))}
-nameInput.addEventListener('input',()=>{if(phase==='name')renderSlots()});
-function giveHint(){sfx.hint();const ans=friends[fi].name;if(hints<ans.length-1)hints++;renderSlots();message.classList.remove('error');message.textContent='Empieza con '+ans.slice(0,hints).toUpperCase()+'…';nameInput.focus({preventScroll:true})}
-hintBtn.addEventListener('click',()=>{if(phase==='name')giveHint()});
-namer.addEventListener('submit',e=>{e.preventDefault();if(phase!=='name')return;const a=friends[fi],guess=norm(nameInput.value);if(!guess){message.textContent='Escribí el nombre del animal y tocá Listo.';return}
- if(guess!==norm(a.name)){misses++;sfx.bad();animate(namer,'shake');animate(foxChar,'laugh');message.classList.add('error');message.textContent='¡Je, je! Ese no es. Mirá bien al animal.'+(misses>=2?' Te doy una pista.':'');if(misses>=2)giveHint();else nameInput.select();return}
- sfx.good(4);nameInput.value=a.name.toUpperCase();renderSlots(true);progressEl.textContent=(fi+1)+' / '+friends.length;message.classList.remove('error');message.textContent='¡Muy bien! Es '+(a.id==='pato'||a.id==='cerdo'||a.id==='conejo'?'el ':'la ')+a.name.toLowerCase()+'.';phase='wait';
- setTimeout(()=>story([{who:'animal',animal:a,text:GREET[a.id]}],()=>{fi++;if(fi<friends.length)showFriend();else finishLevel2()}),700)});
-function finishLevel2(){story([{who:'fox',text:'¡Cuántos amigos! Ahora yo también quiero ser amigo de todos.'},{who:'wolf',text:'¡Bienvenido, Kamy! Pero nada de travesuras, ¿eh?'}],()=>showComplete('¡Nivel 2 completo!','Conociste a los '+friends.length+' amigos del bosque de '+WOLVES[wolf].name+'.'))}
-nextLevelBtn.addEventListener('click',()=>{completeEl.classList.remove('show');if(level===1)startLevel2();else if(level===2){friendChar.hidden=true;startLevel3()}else{friendChar.hidden=true;story([{who:'fox',text:'¡Je, je! Volví a mezclar las manzanas. ¿Las ordenás otra vez?'}],start)}});
-document.getElementById('replay').addEventListener('click',()=>{completeEl.classList.remove('show');if(level===2){friendChar.hidden=true;startLevel2();return}if(level===3){startLevel3();return}story([{who:'fox',text:'¡Je, je! Las volví a mezclar. ¿Podrás ordenarlas otra vez?'}],start)});
-document.getElementById('rechoose').addEventListener('click',openChoose);
-// Nivel 3: Kamy esconde a los amigos detrás de un arbusto y el jugador los reconoce por su sonido.
-const BUSH=M(["...kkkkk","..kgggGg",".kgGgggg","kggggGgg","kgGggggg","kggggggG","kgGggggg",".kgggGgg","..kkkkkk"]);
-bushEl.innerHTML=spriteSVG(BUSH,{k:'#173c2a',g:'#3f8f55',G:'#6cbf65'});
-const SOUNDS={vaca:'¡Muuu!',gallina:'¡Co, co, co!',pato:'¡Cuac, cuac!',cerdo:'¡Oink, oink!',oveja:'¡Beee!',loba:'¡Auuuu!'};
-// Grabaciones reales (Wikimedia Commons, ver CREDITS.md). start/dur recortan el tramo donde se escucha el animal.
-const CLIPS={vaca:{start:.9,dur:1.8},gallina:{start:0,dur:2.6},pato:{start:.9,dur:1.6},cerdo:{start:0,dur:.4,times:2},oveja:{start:.4,dur:1.6},loba:{start:0,dur:4.5}};
-const audioCache={};let clipTimer;
-function playAnimal(id){const c=CLIPS[id];if(!c||muted)return;clearTimeout(clipTimer);Object.values(audioCache).forEach(a=>a.pause());const au=audioCache[id]||(audioCache[id]=new Audio('sounds/'+id+'.mp3'));let n=c.times||1;
- const once=()=>{au.currentTime=c.start;au.play().then(()=>{clipTimer=setTimeout(()=>{au.pause();if(--n>0)clipTimer=setTimeout(once,150)},c.dur*1000)}).catch(()=>say(SOUNDS[id]))};once()}
-const canSpeak='speechSynthesis' in window&&typeof SpeechSynthesisUtterance==='function';
-function say(t){if(!canSpeak||muted)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/[¡!]/g,''));u.lang='es-AR';u.rate=.85;speechSynthesis.speak(u)}catch{}}
-let rounds=[],ri=0;
-function startLevel3(){level=3;applesEl.hidden=true;friendChar.hidden=true;popEl.classList.remove('play');subtitle.textContent='Escuchá el sonido y encontrá al amigo escondido.';
- const lobaFriend={id:'loba',name:WOLVES[wolf].name,art:WOLF,pal:wolfPal(wolf)};
- rounds=[...shuffle(ANIMALS.filter(a=>a.id!=='conejo')),lobaFriend];ri=0;setHud('Nivel','3','Encontrados','0 / '+rounds.length);
- story([{who:'fox',text:'¡Je, je! Tengo un juego nuevo: escondí a todos los amigos detrás de los arbustos.'},
-  {who:'wolf',text:'¡Kamy! Bueno… los vamos a encontrar por cómo suenan.'},
-  {who:'narr',text:'Escuchá el sonido que sale del arbusto y tocá al animal que lo hace. Con Escuchar lo oís otra vez.'}],showRound)}
-function showRound(){phase='sound';const a=rounds[ri],pool=[...ANIMALS,{id:'loba',name:WOLVES[wolf].name,art:WOLF,pal:wolfPal(wolf)}].filter(x=>x.id!==a.id),opts=shuffle([a,...shuffle(pool).slice(0,2)]);
- bubble.textContent=SOUNDS[a.id];animate(bushEl,'rustle');l3.hidden=false;message.classList.remove('error');message.textContent='¿Quién hace '+SOUNDS[a.id].replace(/[¡!]/g,'')+'?';
- choicesEl.replaceChildren(...opts.map(o=>{const b=document.createElement('button');b.type='button';b.className='wolf-btn';b.setAttribute('aria-label',o.name);b.innerHTML='<span class="pic">'+spriteSVG(o.art,o.pal||APAL)+'</span><strong>'+o.name+'</strong>';b.addEventListener('click',()=>guessSound(b,o,a));return b}));
- playAnimal(a.id);choicesEl.querySelector('button')?.focus({preventScroll:true})}
-listenBtn.addEventListener('click',()=>{if(phase!=='sound')return;animate(bushEl,'rustle');playAnimal(rounds[ri].id)});
-function guessSound(btn,o,a){if(phase!=='sound')return;if(o.id!==a.id){sfx.bad();btn.disabled=true;animate(btn,'shake');animate(foxChar,'laugh');message.classList.add('error');message.textContent='¡Je, je! '+o.name+' no hace '+SOUNDS[a.id].replace(/[¡!]/g,'').toLowerCase()+'. Probá otra vez.';return}
- sfx.good(4);phase='wait';btn.classList.add('ok');animate(btn,'bounce');if(a.id==='loba')animate(wolfChar,'hop');progressEl.textContent=(ri+1)+' / '+rounds.length;message.classList.remove('error');message.textContent=a.id==='loba'?'¡Era '+a.name+'! ¡Auuuu!':'¡Sí! '+(a.id==='pato'||a.id==='cerdo'?'El ':'La ')+a.name.toLowerCase()+' dice '+SOUNDS[a.id].replace(/[¡!]/g,'').toLowerCase()+'.';
- setTimeout(()=>{ri++;if(ri<rounds.length)showRound();else finishLevel3()},1100)}
-function finishLevel3(){story([{who:'wolf',text:'¡Encontramos a todos! Y el último aullido era mío. ¡Auuuu!'},{who:'fox',text:'Ustedes ganan. ¡Qué buen equipo hacemos todos juntos!'}],()=>showComplete('¡Nivel 3 completo!','Encontraste a todos los amigos por su sonido.'))}
-story(INTRO,openChoose);
-const modelContext=document.modelContext;
-if(modelContext?.registerTool){
-  try{
-    void Promise.resolve(modelContext.registerTool({
-      name:'choose_apple',title:'Elegir manzana',description:'Elige una manzana numerada del bosque y muestra el resultado en el juego.',
-      inputSchema:{type:'object',properties:{number:{type:'integer',minimum:1,maximum:10}},required:['number'],additionalProperties:false},
-      annotations:{readOnlyHint:false,untrustedContentHint:false},
-      execute(input){
-        const n=input?.number;
-        if(!Number.isInteger(n)||n<1||n>10)throw new Error('El número debe estar entre 1 y 10.');
-        if(phase!=='play')throw new Error('Primero terminá la historia y elegí una loba.');
-        if(locked||expected>10)throw new Error('Esperá a que termine la animación o reiniciá la partida.');
-        const button=[...applesEl.querySelectorAll('.apple')].find(el=>el.getAttribute('aria-label')==='Manzana número '+n);
-        if(!button||button.classList.contains('picked'))throw new Error('Esa manzana ya fue elegida.');
-        button.click();return {chosen:n,correct:n===expected-1,next:expected<=10?expected:null,completed:expected>10};
-      }
-    })).catch(()=>{});
-  }catch{}
-}
-})();
-</script>
+
+<script src="js/sprites.js"></script>
+<script src="js/forest.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/game.js"></script>
+<script src="js/level1.js"></script>
+<script src="js/level2.js"></script>
+<script src="js/level3.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

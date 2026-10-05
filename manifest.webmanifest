@@ -1,0 +1,17 @@
+{
+  "name": "Bosque de números",
+  "short_name": "Bosque",
+  "description": "Juego pixel art para aprender números, nombres y sonidos de animales.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#173c38",
+  "theme_color": "#173c38",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

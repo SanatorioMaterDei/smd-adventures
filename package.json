@@ -1,0 +1,12 @@
+{
+  "name": "smd-adventures",
+  "private": true,
+  "description": "Bosque de números: juego didáctico pixel art.",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1"
+  }
+}
