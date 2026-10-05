@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173c38">
+  <meta name="description" content="Un juego para aprender el orden de los números entre manzanos de un bosque pixel art.">
+  <title>Bosque de números</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%232c8f52' d='M17 5h8v4h-8z'/%3E%3Cpath fill='%23733e2b' d='M15 3h3v8h-3z'/%3E%3Cpath fill='%23db4b39' d='M8 9h16v3h4v12h-4v4H8v-4H4V12h4z'/%3E%3Cpath fill='%23ff9b67' d='M8 12h4v4H8z'/%3E%3C/svg%3E">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Press+Start+2P&display=swap');
+    :root{font-family:Fredoka,system-ui,sans-serif;color:#fff9db;background:#173c38;font-size:16px}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% -20%,#416f51 0,#173c38 65%);display:flex;align-items:center;justify-content:center;padding:24px}
+    button{font:inherit}.app{width:min(1120px,100%)}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:0 0 18px}.titleblock h1{font:clamp(1.15rem,2.8vw,1.8rem)/1.4 'Press Start 2P',monospace;color:#fff4bd;margin:0 0 10px;text-shadow:3px 3px 0 #315743}.titleblock p{font-size:1.1rem;margin:0;color:#d7e6b5}.hud{display:flex;align-items:stretch;gap:10px;flex-shrink:0}.counter,.progress{background:#fdf3cf;color:#28543d;border:4px solid #a6c980;box-shadow:5px 5px 0 #0c292b;padding:9px 15px;min-height:64px;display:flex;align-items:center;justify-content:center}.counter{gap:12px}.counter small,.progress small{display:block;font-weight:600;font-size:.82rem;line-height:1.1}.counter strong{font:1.8rem/1 'Press Start 2P',monospace;color:#cf4939}.progress{min-width:110px;flex-direction:column}.progress strong{font:1rem/1.3 'Press Start 2P',monospace;margin-top:5px}
+    .frame{position:relative;border:8px solid #8c5537;box-shadow:0 0 0 5px #cf9b5a,0 14px 0 5px #0c292b,0 26px 40px #071e20;overflow:hidden;background:#78c9c5;aspect-ratio:16/9}.frame canvas{width:100%;height:100%;display:block;image-rendering:pixelated}.apples{position:absolute;inset:0}.apple{position:absolute;width:clamp(42px,5.5vw,62px);height:clamp(42px,5.5vw,62px);transform:translate(-50%,-50%);border:0;background:transparent;padding:0;cursor:pointer;filter:drop-shadow(2px 4px 0 #183b26);touch-action:manipulation}.apple:focus-visible{outline:4px solid #fff8ac;outline-offset:4px;border-radius:12px}.apple:hover{transform:translate(-50%,-54%) scale(1.13)}.apple svg{width:100%;height:100%;display:block;image-rendering:pixelated}.apple b{position:absolute;inset:23% 0 0;display:grid;place-items:center;font:clamp(.85rem,1.65vw,1.15rem)/1 'Press Start 2P',monospace;color:#fff8d5;text-shadow:2px 2px 0 #842f2b;pointer-events:none}.apple.shake{animation:shake .35s steps(4,end)}.apple.picked{pointer-events:none;animation:pop .23s steps(3,end) forwards}.apple.next{filter:drop-shadow(0 0 5px #fff9a8) drop-shadow(2px 4px 0 #183b26)}@keyframes shake{0%,100%{margin-left:0}25%{margin-left:-7px}50%{margin-left:7px}75%{margin-left:-5px}}@keyframes pop{to{transform:translate(-50%,-70%) scale(0);opacity:0}}
+    .number-pop{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%) scale(.16);opacity:0;pointer-events:none;color:#fff8dc;font:clamp(4rem,14vw,10rem)/1 'Press Start 2P',monospace;text-shadow:7px 7px 0 #c9503b,-5px -5px 0 #eaa24e,0 12px 0 #713e34;z-index:5;will-change:transform,opacity}.number-pop.play{animation:number-show .7s cubic-bezier(.2,.7,.22,1) both}@keyframes number-show{0%{transform:translate(-50%,-50%) scale(.12);opacity:0}35%,58%{transform:translate(-50%,-50%) scale(1);opacity:1}100%{transform:translate(-50%,-50%) scale(.12);opacity:0}}
+    .message{min-height:28px;margin:24px 0 0;text-align:center;color:#eef4ce;font-size:1.1rem;font-weight:600}.message.error{color:#ffd19b}.complete{position:absolute;inset:0;background:#143d35d9;z-index:6;display:none;align-items:center;justify-content:center;text-align:center;padding:20px}.complete.show{display:flex}.complete-card{background:#fff4cb;border:6px solid #a5ca7e;box-shadow:8px 8px 0 #0b2828;padding:22px 25px 25px;color:#28533a;max-width:360px}.complete-card h2{font:1.25rem/1.6 'Press Start 2P',monospace;margin:0 0 14px;color:#c74c38}.complete-card p{font-size:1.2rem;margin:0 0 22px}.replay{border:0;background:#d4543e;color:#fff7dc;padding:14px 18px;font:'Press Start 2P',monospace;font-size:.82rem;box-shadow:4px 4px 0 #7c342d;cursor:pointer}.replay:hover{background:#e96748}.replay:focus-visible{outline:4px solid #2c8558;outline-offset:4px}
+    @media(max-width:720px){body{padding:16px;align-items:flex-start}.top{align-items:flex-start;flex-direction:column}.titleblock h1{font-size:1.13rem}.titleblock p{font-size:1rem}.hud{width:100%}.counter,.progress{min-height:54px}.frame{aspect-ratio:4/5}.apple{width:clamp(37px,10vw,53px);height:clamp(37px,10vw,53px)}.apple b{font-size:.8rem}.number-pop{font-size:5rem}.message{margin-top:22px;font-size:1rem}}@media(prefers-reduced-motion:reduce){.apple,.number-pop{animation-duration:.01ms!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<main class="app">
+  <header class="top">
+    <div class="titleblock"><h1>Bosque de números</h1><p>Tocá las manzanas en orden, del 1 al 10.</p></div>
+    <div class="hud"><div class="counter" aria-live="polite"><div><small>Buscá el</small><strong id="next">1</strong></div></div><div class="progress"><small>Encontradas</small><strong id="progress">0 / 10</strong></div></div>
+  </header>
+  <section class="frame" aria-label="Bosque de manzanos con números del 1 al 10">
+    <canvas id="forest" width="480" height="270" aria-hidden="true"></canvas>
+    <div class="apples" id="apples"></div>
+    <div class="number-pop" id="numberPop" aria-hidden="true"></div>
+    <div class="complete" id="complete"><div class="complete-card"><h2>¡Muy bien!</h2><p>Encontraste todas las manzanas en orden.</p><button class="replay" id="replay">Jugar otra vez</button></div></div>
+  </section>
+  <p class="message" id="message" aria-live="polite">Empezá buscando la manzana 1.</p>
+</main>
+<script>
+(()=>{
+const canvas=document.getElementById('forest'),ctx=canvas.getContext('2d');ctx.imageSmoothingEnabled=false;
+const W=480,H=270;let seed=17;function rand(){seed=(seed*1664525+1013904223)>>>0;return seed/4294967296}function rect(x,y,w,h,c){ctx.fillStyle=c;ctx.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h))}
+function cloud(x,y){rect(x+8,y,38,10,'#e6fbec');rect(x,y+8,65,12,'#e6fbec');rect(x+14,y-5,24,6,'#e6fbec');rect(x+4,y+18,56,4,'#c5e9d4')}
+function pine(x,y,s){rect(x-3*s,y,6*s,75*s,'#41664b');for(let i=0;i<3;i++){let yy=y+i*15*s;rect(x-(18-i*3)*s,yy+15*s,(36-i*6)*s,9*s,'#397a55');rect(x-(13-i*3)*s,yy+5*s,(26-i*6)*s,13*s,'#4d9462');rect(x-5*s,yy,10*s,8*s,'#5ca36b')}}
+function tree(x,y,s){let t=Math.round(14*s);rect(x-t/2,y, t,105*s,'#744a2f');rect(x-t/2+3*s,y,3*s,105*s,'#9e6b3d');rect(x-14*s,y+37*s,28*s,8*s,'#744a2f');rect(x-31*s,y+26*s,28*s,7*s,'#744a2f');rect(x+4*s,y+22*s,27*s,7*s,'#744a2f');let blobs=[[-26,11,37,31],[-6,-7,43,42],[23,10,36,34],[-41,29,37,29],[-5,22,55,35],[30,33,34,26]];blobs.forEach(([bx,by,bw,bh],i)=>{rect(x+bx*s,y+by*s,bw*s,bh*s,i%2?'#257d48':'#2e8b4e');rect(x+(bx+4)*s,y+(by+3)*s,(bw-8)*s,6*s,'#48a960');rect(x+(bx+7)*s,y+(by+bh-8)*s,(bw-12)*s,5*s,'#1f6a42')})}
+function draw(){seed=17;rect(0,0,W,H,'#82cbcb');rect(0,0,W,90,'#91d7d1');cloud(30,24);cloud(183,42);cloud(380,18);rect(0,136,W,65,'#5da377');for(let i=0;i<12;i++)pine(i*48+rand()*28,100+rand()*34,.65+rand()*.2);rect(0,182,W,88,'#4a9a58');rect(0,201,W,69,'#3a854c');rect(0,247,W,23,'#377a42');for(let i=0;i<80;i++){let x=rand()*W,y=191+rand()*79;rect(x,y,4,2,rand()>.5?'#6cbf65':'#2c7144')}tree(76,88,1.05);tree(246,83,1.12);tree(410,91,1.03);for(let i=0;i<28;i++){let x=rand()*W,y=215+rand()*50;rect(x,y,2,5,'#72bc66');rect(x-2,y+2,6,2,'#80ca72');if(i%4===0){rect(x,y-2,3,3,'#f2d383')}}rect(0,260,W,10,'#326f40')}
+draw();
+const slots=[{x:9,y:30},{x:22,y:23},{x:17,y:42},{x:27,y:37},{x:43,y:22},{x:54,y:30},{x:61,y:44},{x:76,y:28},{x:87,y:23},{x:84,y:43}];
+const appleSvg='<svg viewBox="0 0 48 48" aria-hidden="true" shape-rendering="crispEdges"><path fill="#714631" d="M23 2h4v10h-4z"/><path fill="#61b454" d="M27 5h11v4h-4v4h-9V9h2z"/><path fill="#a73532" d="M9 13h9v-3h12v3h9v5h4v19h-5v5H10v-5H5V18h4z"/><path fill="#e55a42" d="M9 15h9v-3h12v3h9v5h3v14h-5v5H11v-5H7V20h2z"/><path fill="#ff8960" d="M12 18h8v4h-8zM10 22h5v7h-5z"/><path fill="#c84237" d="M32 18h7v18h-5v4H15v-3h17z"/></svg>';
+const applesEl=document.getElementById('apples'),nextEl=document.getElementById('next'),progressEl=document.getElementById('progress'),message=document.getElementById('message'),popEl=document.getElementById('numberPop'),completeEl=document.getElementById('complete');let expected=1,locked=false,timer;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function showNumber(n){popEl.textContent=n;popEl.classList.remove('play');void popEl.offsetWidth;popEl.classList.add('play')}
+function start(){expected=1;locked=false;clearTimeout(timer);popEl.classList.remove('play');completeEl.classList.remove('show');nextEl.textContent='1';progressEl.textContent='0 / 10';message.textContent='Empezá buscando la manzana 1.';message.classList.remove('error');applesEl.replaceChildren();const nums=shuffle([1,2,3,4,5,6,7,8,9,10]);slots.forEach((slot,i)=>{const n=nums[i],btn=document.createElement('button');btn.className='apple';btn.style.left=slot.x+'%';btn.style.top=slot.y+'%';btn.setAttribute('aria-label','Manzana número '+n);btn.innerHTML=appleSvg+'<b>'+n+'</b>';btn.addEventListener('click',()=>pick(btn,n));applesEl.append(btn)})}
+function pick(btn,n){if(locked)return;if(n!==expected){btn.classList.remove('shake');void btn.offsetWidth;btn.classList.add('shake');message.textContent='Buscá el número '+expected+'. ¡Vos podés!';message.classList.add('error');return}locked=true;btn.classList.add('picked');showNumber(n);message.classList.remove('error');progressEl.textContent=n+' / 10';message.textContent=n===10?'¡Encontraste todas!':'¡Bien! Ahora buscá el '+(n+1)+'.';expected++;nextEl.textContent=expected<=10?expected:'✓';timer=setTimeout(()=>{locked=false;if(expected>10){completeEl.classList.add('show');document.getElementById('replay').focus()}},700)}
+document.getElementById('replay').addEventListener('click',start);start();
+const modelContext=document.modelContext;
+if(modelContext?.registerTool){
+  try{
+    void Promise.resolve(modelContext.registerTool({
+      name:'choose_apple',title:'Elegir manzana',description:'Elige una manzana numerada del bosque y muestra el resultado en el juego.',
+      inputSchema:{type:'object',properties:{number:{type:'integer',minimum:1,maximum:10}},required:['number'],additionalProperties:false},
+      annotations:{readOnlyHint:false,untrustedContentHint:false},
+      execute(input){
+        const n=input?.number;
+        if(!Number.isInteger(n)||n<1||n>10)throw new Error('El número debe estar entre 1 y 10.');
+        if(locked||expected>10)throw new Error('Esperá a que termine la animación o reiniciá la partida.');
+        const button=[...applesEl.querySelectorAll('.apple')].find(el=>el.getAttribute('aria-label')==='Manzana número '+n);
+        if(!button||button.classList.contains('picked'))throw new Error('Esa manzana ya fue elegida.');
+        button.click();return {chosen:n,correct:n===expected-1,next:expected<=10?expected:null,completed:expected>10};
+      }
+    })).catch(()=>{});
+  }catch{}
+}
+})();
+</script>
+</body>
+</html>
